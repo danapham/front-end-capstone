@@ -1,0 +1,42 @@
+{
+	"list": {
+		"-MM6ti2EnmyCPRpnZap4": {
+			"listId": "-MM6ti2EnmyCPRpnZap4",
+			"userId": "danapham1047r7e9e"
+		},
+		"-MM6ti2EnmyCPRpnZap0": {
+			"listId": "-MM6ti2EnmyCPRpnZap0",
+			"userId": "danapham1047r7e9e"
+		}
+	},
+	"ingredient": {
+		"-MM6ti2EnmyCPRpnZap48": {
+			"ingredientId": "-MM6ti2EnmyCPRpnZap8",
+			"name": "butternut squash",
+			"category": "produce"
+		}
+	},
+	"list_ingredient": {
+		"-MM6ti2EnmyCPRpnZap41": {
+			"listId": "-MM6ti2EnmyCPRpnZap0",
+			"ingredientId": "-MM6ti2EnmyCPRpnZap48",
+			"checked": false
+		}
+	},
+	"recipe": {
+		"-MM6ti2EnmyCPRpnZap49": {
+			"recipeId": "-MM6ti2EnmyCPRpnZap9",
+			"name": "butternut squash soup",
+			"description": "for cozy feels",
+			"userId": "danapham1047r7e9e"
+		}
+	},
+	"recipe_ingredient": {
+		"-MM6ti2EnmyCPRpnZap50": {
+			"ingredientId": "-MM6ti2EnmyCPRpnZap8",
+			"recipeId": "-MM6ti2EnmyCPRpnZap9",
+			"quantityType": "cup",
+			"quantity": "3"
+		}
+	}
+}
