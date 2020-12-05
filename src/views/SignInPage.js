@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
+import Auth from '../components/Auth';
 
 class SignInPage extends Component {
   state = { }
 
   render() {
     return (
-      <h1>Sign In Page</h1>
+      <div>
+      <h1>gredients</h1>
+      <Auth />
+      </div>
     );
   }
 }
