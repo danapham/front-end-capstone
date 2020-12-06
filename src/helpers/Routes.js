@@ -22,10 +22,10 @@ class Routes extends Component {
   }
 }
 
-const PrivateRoute = ({ component: selectedComponent, user, ...rest }) => {
+const PrivateRoute = ({ component: SelectedComponent, user, ...rest }) => {
   const routeChecker = (props) => (user
-    ? (<Component {...props} user={user} />)
-    : (<Redirect to={{ pathname: '/', state: { from: props.location } }} />));
+    ? (<SelectedComponent {...props} user={user} />)
+    : (<Redirect to={{ pathname: '/sign-in-page', state: { from: props.location } }} />));
 
   return <Route {...rest} render={(props) => routeChecker(props)} />;
 };

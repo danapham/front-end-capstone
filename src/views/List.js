@@ -8,8 +8,7 @@ class List extends Component {
     let component = '';
 
     if (this.props.user) {
-      // console.warn('list');
-      component = <h1>List</h1>;
+      component = <><h1>List</h1></>;
     } else {
       component = <Auth />;
     }
@@ -20,7 +19,7 @@ class List extends Component {
   render() {
     return (
       <>
-      {this.loadComponent}
+      {this.loadComponent()}
       </>
     );
   }
