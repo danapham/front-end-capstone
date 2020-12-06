@@ -9,14 +9,21 @@ fbConnection();
 class App extends React.Component {
   state = {
     authed: false,
+    user: {},
   }
 
   componentDidMount() {
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ authed: true });
+        this.setState({
+          authed: true,
+          user,
+        });
       } else {
-        this.setState({ authed: false });
+        this.setState({
+          authed: false,
+          user: {},
+        });
       }
     });
   }
@@ -26,12 +33,12 @@ class App extends React.Component {
   }
 
   render() {
-    const { authed } = this.state;
+    const { authed, user } = this.state;
 
     return (
       <div className="App">
         <Router>
-          <MyNavbar authed={authed} />
+          {Object.keys(user).length ? <MyNavbar authed={authed} user={user} /> : null}
           <Routes authed={authed} />
         </Router>
       </div>

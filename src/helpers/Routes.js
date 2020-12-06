@@ -15,7 +15,7 @@ class Routes extends Component {
         <PrivateRoute exact path='/' component={List} user={authed} />
         <Route exact path='/not-found' component={NotFound} />
         <Route exact path='/recipes' component={Recipes} />
-        <Route exact path='/sign-in-page' component={SignInPage} />
+        <UserRedirect exact path='/sign-in-page' component={SignInPage} user={authed} />
         <Route exact path='/single-recipe' component={SingleRecipe} />
       </Switch>
     );
@@ -28,6 +28,14 @@ const PrivateRoute = ({ component: SelectedComponent, user, ...rest }) => {
     : (<Redirect to={{ pathname: '/sign-in-page', state: { from: props.location } }} />));
 
   return <Route {...rest} render={(props) => routeChecker(props)} />;
+};
+
+const UserRedirect = ({ component: SelectedComponent, user, ...rest }) => {
+  const loginChecker = (props) => (!user
+    ? (<SelectedComponent {...props} user={user} />)
+    : (<Redirect to='/' />));
+
+  return <Route {...rest} render={(props) => loginChecker(props)} />;
 };
 
 export default Routes;
