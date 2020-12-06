@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
+import Auth from '../components/Auth';
 
 class List extends Component {
   state = { }
 
+  loadComponent = () => {
+    let component = '';
+
+    if (this.props.user) {
+      component = <><h1>List</h1></>;
+    } else {
+      component = <Auth />;
+    }
+
+    return component;
+  };
+
   render() {
     return (
-      <h1>List</h1>
+      <>
+      {this.loadComponent()}
+      </>
     );
   }
 }
