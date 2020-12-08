@@ -1,39 +1,79 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
-  Button, Form, FormGroup, Label, Input,
+  Button, Form, FormGroup, Label, Input, Row, Col,
 } from 'reactstrap';
+import IngredientInput from '../IngredientInput';
 
-const RecipeForm = (props) => (
-    <Form>
+class RecipeForm extends Component {
+  state = {
+    recipe: {
+      recipeId: '',
+      recipeName: '',
+      description: '',
+      userId: '',
+    },
+    ingredients: [
+      {
+        ingredientId: '',
+        ingredientName: '',
+        category: '',
+      },
+      {
+        ingredientId: '',
+        ingredientName: '',
+        category: '',
+      },
+    ],
+    recipe_ingredient: {
+      quantity: '',
+      quantityType: '',
+    },
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
+  handleAddClick = () => {
+
+  }
+
+  handleIngredientInput = (index, data) => {
+    this.setState({
+      [this.state.ingredients[index]]: [{ data }],
+    });
+  }
+
+  render() {
+    const { ingredients } = this.state;
+    return (
+      <>
+      <Form onSubmit={this.handleSubmit}>
       <FormGroup>
-        <Label for="name">Name</Label>
-        <Input type="text" name="name" placeholder="ex. Butternut Squash Soup" />
+        <Label for="recipeName">Name</Label>
+        <Input type="text" name="recipeName" placeholder="ex. Butternut Squash Soup" onChange={this.handleChange} />
       </FormGroup>
       <FormGroup>
         <Label for="description">Description</Label>
-        <Input type="text" name="description" />
+        <Input type="text" name="description" onChange={this.handleChange} />
       </FormGroup>
-      <FormGroup>
-        <Label for="quantity">Quantity</Label>
-        <Input type="number" name="quantity" />
-      </FormGroup>
-      <FormGroup>
-        <Label for="unit">Unit</Label>
-        <Input type="select" name="unit">
-          <option>unit</option>
-          <option>tsp.</option>
-          <option>tbsp.</option>
-          <option>cup</option>
-          <option>lb.</option>
-          <option>oz.</option>
-        </Input>
-      </FormGroup>
-      <FormGroup>
-        <Label for="ingredient">Ingredient</Label>
-        <Input type="text" name="ingredient" />
-      </FormGroup>
+      {ingredients.map((ingredient) => <IngredientInput onInputChange={this.handleIngredientInput} />)}
+      <Row>
+        <Col md={{ size: 6, offset: 5 }}>
+      <Button><i className="fas fa-plus"></i></Button>
+          </Col>
+      </Row>
       <Button>Submit</Button>
     </Form>
-);
+    </>
+    );
+  }
+}
 
 export default RecipeForm;

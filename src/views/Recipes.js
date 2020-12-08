@@ -9,7 +9,7 @@ class Recipes extends Component {
     return (
       <>
       <h1>Recipes</h1>
-      <AppModal buttonLabel={<i class="fas fa-plus"></i>} title="Add a Recipe">
+      <AppModal buttonLabel={<i className="fas fa-plus"></i>} title="Add a Recipe" className="recipe-form">
         <RecipeForm />
       </AppModal>
       </>
