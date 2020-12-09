@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {
   Button, Form, FormGroup, Label, Input, Row, Col,
 } from 'reactstrap';
+import recipeData from '../../helpers/data/recipeData';
+import getUid from '../../helpers/data/authData';
 
 class RecipeForm extends Component {
   state = {
@@ -39,6 +41,16 @@ class RecipeForm extends Component {
     ],
   }
 
+  componentDidMount() {
+    const userId = getUid();
+    this.setState((prevState) => ({
+      recipe: {
+        ...prevState.recipe,
+        userId,
+      },
+    }));
+  }
+
   handleRecipeChange = (e) => {
     const recipeObj = this.state.recipe;
     recipeObj[e.target.name] = e.target.value;
@@ -65,10 +77,6 @@ class RecipeForm extends Component {
     });
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-  }
-
   handleAddIngredient = () => {
     this.setState({
       ingredients: [...this.state.ingredients,
@@ -78,6 +86,17 @@ class RecipeForm extends Component {
           category: '',
         }],
     });
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (this.state.recipe.recipeId === '') {
+      recipeData.createRecipe(this.state.recipe)
+        .then(() => {
+          recipeData.getUserRecipes(this.state.recipe.userId);
+        });
+    }
   }
 
   render() {
