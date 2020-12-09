@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import {
   Button, Form, FormGroup, Label, Input, Row, Col,
 } from 'reactstrap';
-import recipeData from '../../helpers/data/recipeData';
 import getUid from '../../helpers/data/authData';
+import recipeData from '../../helpers/data/recipeData';
+import ingredientsData from '../../helpers/data/ingredientsData';
 
 class RecipeForm extends Component {
   state = {
@@ -19,19 +20,8 @@ class RecipeForm extends Component {
         ingredientName: '',
         category: '',
       },
-      {
-        ingredientId: '',
-        ingredientName: '',
-        category: '',
-      },
     ],
     recipe_ingredient: [
-      {
-        recipeId: '',
-        ingredientId: '',
-        quantity: '',
-        quantityType: '',
-      },
       {
         recipeId: '',
         ingredientId: '',
@@ -96,6 +86,9 @@ class RecipeForm extends Component {
         .then(() => {
           recipeData.getUserRecipes(this.state.recipe.userId);
         });
+    } else if (this.state.ingredients[0].ingredientId === '') {
+      console.log('don make sense');
+      this.state.ingredients.map((ingredient) => ingredientsData.createIngredient(ingredient));
     }
   }
 
