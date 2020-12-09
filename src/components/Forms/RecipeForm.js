@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   Button, Form, FormGroup, Label, Input, Row, Col,
 } from 'reactstrap';
-import IngredientInput from '../IngredientInput';
 
 class RecipeForm extends Component {
   state = {
@@ -24,15 +23,45 @@ class RecipeForm extends Component {
         category: '',
       },
     ],
-    recipe_ingredient: {
-      quantity: '',
-      quantityType: '',
-    },
+    recipe_ingredient: [
+      {
+        recipeId: '',
+        ingredientId: '',
+        quantity: '',
+        quantityType: '',
+      },
+      {
+        recipeId: '',
+        ingredientId: '',
+        quantity: '',
+        quantityType: '',
+      },
+    ],
   }
 
-  handleChange = (e) => {
+  handleRecipeChange = (e) => {
+    const recipeObj = this.state.recipe;
+    recipeObj[e.target.name] = e.target.value;
     this.setState({
-      [e.target.name]: e.target.value,
+      recipe: recipeObj,
+    });
+  }
+
+  handleRIChange = (e, index) => {
+    // const ingId = this.state.ingredients[index].ingredientId;
+    // const recId = this.state.recipe.recipeId;
+    const rIArr = [...this.state.recipe_ingredient];
+    rIArr[index][e.target.name] = e.target.value;
+    this.setState({
+      recipe_ingredient: rIArr,
+    });
+  }
+
+  handleIngredientChange = (e, index) => {
+    const ingredientsArr = [...this.state.ingredients];
+    ingredientsArr[index][e.target.name] = e.target.value;
+    this.setState({
+      ingredients: ingredientsArr,
     });
   }
 
@@ -40,13 +69,14 @@ class RecipeForm extends Component {
     e.preventDefault();
   }
 
-  handleAddClick = () => {
-
-  }
-
-  handleIngredientInput = (index, data) => {
+  handleAddIngredient = () => {
     this.setState({
-      [this.state.ingredients[index]]: [{ data }],
+      ingredients: [...this.state.ingredients,
+        {
+          ingredientId: '',
+          ingredientName: '',
+          category: '',
+        }],
     });
   }
 
@@ -57,18 +87,68 @@ class RecipeForm extends Component {
       <Form onSubmit={this.handleSubmit}>
       <FormGroup>
         <Label for="recipeName">Name</Label>
-        <Input type="text" name="recipeName" placeholder="ex. Butternut Squash Soup" onChange={this.handleChange} />
+        <Input type="text" name="recipeName" placeholder="ex. Butternut Squash Soup" onChange={(e) => this.handleRecipeChange(e)} />
       </FormGroup>
       <FormGroup>
         <Label for="description">Description</Label>
-        <Input type="text" name="description" onChange={this.handleChange} />
+        <Input type="text" name="description" onChange={(e) => this.handleRecipeChange(e)} />
       </FormGroup>
-      {ingredients.map((ingredient) => <IngredientInput onInputChange={this.handleIngredientInput} />)}
-      <Row>
-        <Col md={{ size: 6, offset: 5 }}>
-      <Button><i className="fas fa-plus"></i></Button>
-          </Col>
+      {ingredients.map((ingredient, index) => <>
+          <Row form>
+        <Col md={2}>
+      <FormGroup>
+        <Label for="quantity">Quantity</Label>
+        <Input type="number" name="quantity" onChange={(e) => this.handleRIChange(e, index)} />
+      </FormGroup>
+        </Col>
+        <Col md={2}>
+      <FormGroup>
+        <Label for="quantityType">Unit</Label>
+        <Input type="select" name="quantityType" onChange={(e) => this.handleRIChange(e, index)}>
+          <option>unit</option>
+          <option>tsp.</option>
+          <option>tbsp.</option>
+          <option>cup</option>
+          <option>lb.</option>
+          <option>oz.</option>
+        </Input>
+      </FormGroup>
+        </Col>
+        <Col md={4}>
+      <FormGroup>
+        <Label for="ingredientName">Ingredient</Label>
+        <Input type="text" name="ingredientName" onChange={(e) => this.handleIngredientChange(e, index)} />
+      </FormGroup>
+        </Col>
+        <Col md={3}>
+      <FormGroup>
+        <Label for="category">Ingredient Category</Label>
+        <Input type="select" name="category" onChange={(e) => this.handleIngredientChange(e, index)}>
+          <option>produce</option>
+          <option>dairy</option>
+          <option>meat</option>
+          <option>seafood</option>
+          <option>pharmacy</option>
+          <option>bakery</option>
+          <option>deli</option>
+          <option>shelf stable</option>
+          <option>household goods</option>
+          <option>frozen foods</option>
+        </Input>
+      </FormGroup>
+        </Col>
+      <Col md={1}>
+        <FormGroup>
+      <Button><i className="fas fa-trash"></i></Button>
+        </FormGroup>
+      </Col>
       </Row>
+      {this.state.ingredients.length - 1 === index && <Row>
+        <Col md={{ size: 6, offset: 5 }}>
+        <Button onClick={this.handleAddIngredient} ><i className="fas fa-plus"></i></Button>
+        </Col>
+        </Row>}
+        </>)}
       <Button>Submit</Button>
     </Form>
     </>
