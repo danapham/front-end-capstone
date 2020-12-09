@@ -87,7 +87,7 @@ class RecipeForm extends Component {
           recipeData.getUserRecipes(this.state.recipe.userId);
         });
     } else if (this.state.ingredients[0].ingredientId === '') {
-      console.log('don make sense');
+      console.warn('don make sense');
       this.state.ingredients.map((ingredient) => ingredientsData.createIngredient(ingredient));
     }
   }
