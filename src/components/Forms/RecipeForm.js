@@ -3,8 +3,8 @@ import {
   Button, Form, FormGroup, Label, Input, Row, Col,
 } from 'reactstrap';
 import getUid from '../../helpers/data/authData';
-import recipeData from '../../helpers/data/recipeData';
-import ingredientsData from '../../helpers/data/ingredientsData';
+// import recipeData from '../../helpers/data/recipeData';
+// import ingredientsData from '../../helpers/data/ingredientsData';
 
 class RecipeForm extends Component {
   state = {
@@ -85,18 +85,22 @@ class RecipeForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    if (this.state.recipe.recipeId === '') {
-      recipeData.createRecipe(this.state.recipe)
-        .then((res) => {
-          if (res.length > 0) {
-            this.setState({
-              [this.state.recipe.recipeId]: res,
-            });
-          }
-        });
-      this.state.ingredients.map((ingredient) => ingredientsData.createIngredient(ingredient));
-      this.findIngredientId(this.state.ingredients);
-    }
+    // if (this.state.recipe.recipeId === '') {
+    //   recipeData.createRecipe(this.state.recipe)
+    //     .then((res) => {
+    //       const rIArray = this.state.recipe_ingredient;
+    //       const newArray = rIArray.map((rI) => rI.recipeId = res);
+    //       this.setState({
+    //         recipe_ingredient: newArray,
+    //       });
+    //     });
+    //   this.state.ingredients.map((ingredient) => {
+    //     ingredientsData.createIngredient(ingredient).then((res) => {
+    //       console.log('add ingredient id here');
+    //     });
+    //   });
+    //   this.findIngredientId(this.state.ingredients);
+    // }
   }
 
   findIngredientId = (ingredients) => {
