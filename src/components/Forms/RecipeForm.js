@@ -70,8 +70,6 @@ class RecipeForm extends Component {
     this.setState({
       ingredients: ingredientsArr,
     });
-
-    this.findIngredientId(this.state.ingredients);
   }
 
   handleAddIngredient = () => {
@@ -85,11 +83,11 @@ class RecipeForm extends Component {
     });
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
 
     if (this.state.recipe.recipeId === '') {
-      recipeData.createRecipe(this.state.recipe)
+      await recipeData.createRecipe(this.state.recipe)
         .then((res) => {
           const rIArray = this.state.recipe_ingredients;
           rIArray.map((rI) => rI.recipeId = res);
@@ -98,30 +96,22 @@ class RecipeForm extends Component {
           });
         });
 
-      this.state.ingredients.forEach((ingredient) => {
-        ingredientsData.createIngredient(ingredient).then((res) => {
-          const rIArray = this.state.recipe_ingredients;
-          rIArray.map((rI) => rI.ingredientId = res);
-          this.setState({
-            recipe_ingredients: rIArray,
-          });
-        });
-      });
-
-      this.state.recipe_ingredients.forEach((rIngredient) => {
+      const createRecipeIngredient = () => this.state.recipe_ingredients.forEach((rIngredient) => {
         recipeIngredientsData.createRecipeIngredient(rIngredient);
       });
-    }
-  }
 
-  findIngredientId = (ingredients) => {
-    ingredients.forEach((ingredient, i) => {
-      if (this.state.recipe_ingredients[i].ingredientId === '') {
-        this.setState({
-          [this.state.recipe_ingredients[i].ingredientId]: ingredient.ingredientId,
+      const ingredientsArr = this.state.ingredients;
+      const rIArr = this.state.recipe_ingredients;
+      ingredientsArr.forEach((ingredient, i) => {
+        ingredientsData.createIngredient(ingredient).then((res) => {
+          rIArr[i].ingredientId = res;
         });
-      }
-    });
+      });
+
+      this.setState({
+        recipe_ingredients: rIArr,
+      }, createRecipeIngredient);
+    }
   }
 
   render() {
