@@ -50,13 +50,15 @@ class RecipeForm extends Component {
   }
 
   handleRIChange = (e, index) => {
-    // const ingId = this.state.ingredients[index].ingredientId;
-    // const recId = this.state.recipe.recipeId;
     const rIArr = [...this.state.recipe_ingredient];
     rIArr[index][e.target.name] = e.target.value;
     this.setState({
       recipe_ingredient: rIArr,
     });
+
+    this.state.recipe_ingredient.map((ing) => this.setState({
+      [ing.ingredientId]: this.state.recipe.recipeId,
+    }));
   }
 
   handleIngredientChange = (e, index) => {
@@ -65,6 +67,8 @@ class RecipeForm extends Component {
     this.setState({
       ingredients: ingredientsArr,
     });
+
+    this.findIngredientId(this.state.ingredients);
   }
 
   handleAddIngredient = () => {
@@ -83,11 +87,26 @@ class RecipeForm extends Component {
 
     if (this.state.recipe.recipeId === '') {
       recipeData.createRecipe(this.state.recipe)
-        .then(() => {
-          recipeData.getUserRecipes(this.state.recipe.userId);
+        .then((res) => {
+          if (res.length > 0) {
+            this.setState({
+              [this.state.recipe.recipeId]: res,
+            });
+          }
         });
       this.state.ingredients.map((ingredient) => ingredientsData.createIngredient(ingredient));
+      this.findIngredientId(this.state.ingredients);
     }
+  }
+
+  findIngredientId = (ingredients) => {
+    ingredients.forEach((ingredient, i) => {
+      if (this.state.recipe_ingredient[i].ingredientId === '') {
+        this.setState({
+          [this.state.recipe_ingredient[i].ingredientId]: ingredient.ingredientId,
+        });
+      }
+    });
   }
 
   render() {
