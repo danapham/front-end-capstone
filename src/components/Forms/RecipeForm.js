@@ -1,10 +1,13 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
 import React, { Component } from 'react';
 import {
   Button, Form, FormGroup, Label, Input, Row, Col,
 } from 'reactstrap';
 import getUid from '../../helpers/data/authData';
-// import recipeData from '../../helpers/data/recipeData';
-// import ingredientsData from '../../helpers/data/ingredientsData';
+import recipeData from '../../helpers/data/recipeData';
+import ingredientsData from '../../helpers/data/ingredientsData';
+import recipeIngredientsData from '../../helpers/data/recipeIngredientsData';
 
 class RecipeForm extends Component {
   state = {
@@ -21,7 +24,7 @@ class RecipeForm extends Component {
         category: '',
       },
     ],
-    recipe_ingredient: [
+    recipe_ingredients: [
       {
         recipeId: '',
         ingredientId: '',
@@ -50,13 +53,13 @@ class RecipeForm extends Component {
   }
 
   handleRIChange = (e, index) => {
-    const rIArr = [...this.state.recipe_ingredient];
+    const rIArr = [...this.state.recipe_ingredients];
     rIArr[index][e.target.name] = e.target.value;
     this.setState({
-      recipe_ingredient: rIArr,
+      recipe_ingredients: rIArr,
     });
 
-    this.state.recipe_ingredient.map((ing) => this.setState({
+    this.state.recipe_ingredients.map((ing) => this.setState({
       [ing.ingredientId]: this.state.recipe.recipeId,
     }));
   }
@@ -85,29 +88,37 @@ class RecipeForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    // if (this.state.recipe.recipeId === '') {
-    //   recipeData.createRecipe(this.state.recipe)
-    //     .then((res) => {
-    //       const rIArray = this.state.recipe_ingredient;
-    //       const newArray = rIArray.map((rI) => rI.recipeId = res);
-    //       this.setState({
-    //         recipe_ingredient: newArray,
-    //       });
-    //     });
-    //   this.state.ingredients.map((ingredient) => {
-    //     ingredientsData.createIngredient(ingredient).then((res) => {
-    //       console.log('add ingredient id here');
-    //     });
-    //   });
-    //   this.findIngredientId(this.state.ingredients);
-    // }
+    if (this.state.recipe.recipeId === '') {
+      recipeData.createRecipe(this.state.recipe)
+        .then((res) => {
+          const rIArray = this.state.recipe_ingredients;
+          rIArray.map((rI) => rI.recipeId = res);
+          this.setState({
+            recipe_ingredients: rIArray,
+          });
+        });
+
+      this.state.ingredients.forEach((ingredient) => {
+        ingredientsData.createIngredient(ingredient).then((res) => {
+          const rIArray = this.state.recipe_ingredients;
+          rIArray.map((rI) => rI.ingredientId = res);
+          this.setState({
+            recipe_ingredients: rIArray,
+          });
+        });
+      });
+
+      this.state.recipe_ingredients.forEach((rIngredient) => {
+        recipeIngredientsData.createRecipeIngredient(rIngredient);
+      });
+    }
   }
 
   findIngredientId = (ingredients) => {
     ingredients.forEach((ingredient, i) => {
-      if (this.state.recipe_ingredient[i].ingredientId === '') {
+      if (this.state.recipe_ingredients[i].ingredientId === '') {
         this.setState({
-          [this.state.recipe_ingredient[i].ingredientId]: ingredient.ingredientId,
+          [this.state.recipe_ingredients[i].ingredientId]: ingredient.ingredientId,
         });
       }
     });
