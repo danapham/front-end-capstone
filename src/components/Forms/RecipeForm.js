@@ -83,32 +83,36 @@ class RecipeForm extends Component {
     });
   }
 
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
 
     if (this.state.recipe.recipeId === '') {
-      await recipeData.createRecipe(this.state.recipe)
-        .then((res) => {
-          const rIArray = this.state.recipe_ingredients;
-          rIArray.map((rI) => rI.recipeId = res);
-          this.setState({
-            recipe_ingredients: rIArray,
+      const bigPromise = () => new Promise((resolve, reject) => {
+        recipeData.createRecipe(this.state.recipe)
+          .then((res) => {
+            const rIArray = this.state.recipe_ingredients;
+            rIArray.map((rI) => rI.recipeId = res);
+            this.setState({
+              recipe_ingredients: rIArray,
+            });
+          });
+        const ingredientsArr = this.state.ingredients;
+        const rIArr = this.state.recipe_ingredients;
+        ingredientsArr.forEach((ingredient, i) => {
+          ingredientsData.createIngredient(ingredient).then((res) => {
+            rIArr[i].ingredientId = res;
           });
         });
-
-      const ingredientsArr = this.state.ingredients;
-      const rIArr = this.state.recipe_ingredients;
-      ingredientsArr.forEach(async (ingredient, i) => {
-        await ingredientsData.createIngredient(ingredient).then((res) => {
-          rIArr[i].ingredientId = res;
+        this.setState({
+          recipe_ingredients: rIArr,
         });
-      });
-      this.setState({
-        recipe_ingredients: rIArr,
+        resolve(rIArr).catch((err) => reject(err));
       });
 
-      this.state.recipe_ingredients.forEach((rIngredient) => {
-        recipeIngredientsData.createRecipeIngredient(rIngredient);
+      bigPromise().then((res) => {
+        setTimeout(() => {
+          recipeIngredientsData.createRecipeIngredient(res);
+        }, 1000);
       });
     }
   }
