@@ -92,7 +92,6 @@ class RecipeForm extends Component {
 
   handleDeleteIngredient = (e) => {
     const index = e.target.id;
-    console.log(e.target);
     const ingredientArr = this.state.ingredients;
     ingredientArr.splice(index, 1);
     this.setState({
