@@ -96,21 +96,20 @@ class RecipeForm extends Component {
           });
         });
 
-      const createRecipeIngredient = () => this.state.recipe_ingredients.forEach((rIngredient) => {
-        recipeIngredientsData.createRecipeIngredient(rIngredient);
-      });
-
       const ingredientsArr = this.state.ingredients;
       const rIArr = this.state.recipe_ingredients;
-      ingredientsArr.forEach((ingredient, i) => {
-        ingredientsData.createIngredient(ingredient).then((res) => {
+      ingredientsArr.forEach(async (ingredient, i) => {
+        await ingredientsData.createIngredient(ingredient).then((res) => {
           rIArr[i].ingredientId = res;
         });
       });
-
       this.setState({
         recipe_ingredients: rIArr,
-      }, createRecipeIngredient);
+      });
+
+      this.state.recipe_ingredients.forEach((rIngredient) => {
+        recipeIngredientsData.createRecipeIngredient(rIngredient);
+      });
     }
   }
 
