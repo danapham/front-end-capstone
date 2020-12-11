@@ -72,21 +72,37 @@ class RecipeForm extends Component {
     });
   }
 
-  handleAddIngredient = () => {
+  // handleAddIngredient = () => {
+  //   this.setState({
+  //     ingredients: [...this.state.ingredients,
+  //       {
+  //         ingredientId: '',
+  //         ingredientName: '',
+  //         category: '',
+  //       }],
+  //     recipe_ingredients: [...this.state.recipe_ingredients,
+  //       {
+  //         recipeId: '',
+  //         ingredientId: '',
+  //         quantity: '',
+  //         quantityType: '',
+  //       }],
+  //   });
+  // }
+
+  handleDeleteIngredient = (e) => {
+    const index = e.target.id;
+    console.log(e.target);
+    const ingredientArr = this.state.ingredients;
+    ingredientArr.splice(index, 1);
     this.setState({
-      ingredients: [...this.state.ingredients,
-        {
-          ingredientId: '',
-          ingredientName: '',
-          category: '',
-        }],
-      recipe_ingredients: [...this.state.recipe_ingredients,
-        {
-          recipeId: '',
-          ingredientId: '',
-          quantity: '',
-          quantityType: '',
-        }],
+      ingredients: ingredientArr,
+    });
+
+    const rIArr = this.state.recipe_ingredients;
+    rIArr.splice(index, 1);
+    this.setState({
+      recipe_ingredients: rIArr,
     });
   }
 
@@ -126,6 +142,25 @@ class RecipeForm extends Component {
 
   render() {
     const { ingredients } = this.state;
+
+    const handleAddIngredient = () => {
+      this.setState({
+        ingredients: [...this.state.ingredients,
+          {
+            ingredientId: '',
+            ingredientName: '',
+            category: '',
+          }],
+        recipe_ingredients: [...this.state.recipe_ingredients,
+          {
+            recipeId: '',
+            ingredientId: '',
+            quantity: '',
+            quantityType: '',
+          }],
+      });
+    };
+
     return (
       <>
       <Form onSubmit={this.handleSubmit}>
@@ -185,13 +220,13 @@ class RecipeForm extends Component {
         </Col>
       <Col md={1}>
         <FormGroup>
-      <Button><i className="fas fa-trash"></i></Button>
+      <Button id={index} onClick={(e) => this.handleDeleteIngredient(e)} ><i id={index} className="fas fa-trash"></i></Button>
         </FormGroup>
       </Col>
       </Row>
       {this.state.ingredients.length - 1 === index && <Row>
         <Col md={{ size: 6, offset: 5 }}>
-        <Button onClick={this.handleAddIngredient} ><i className="fas fa-plus"></i></Button>
+        <Button onClick={handleAddIngredient} ><i className="fas fa-plus"></i></Button>
         </Col>
         </Row>}
         </>)}
