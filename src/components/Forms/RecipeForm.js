@@ -80,6 +80,13 @@ class RecipeForm extends Component {
           ingredientName: '',
           category: '',
         }],
+      recipe_ingredients: [...this.state.recipe_ingredients,
+        {
+          recipeId: '',
+          ingredientId: '',
+          quantity: '',
+          quantityType: '',
+        }],
     });
   }
 
@@ -124,7 +131,7 @@ class RecipeForm extends Component {
       <Form onSubmit={this.handleSubmit}>
       <FormGroup>
         <Label for="recipeName">Name</Label>
-        <Input type="text" name="recipeName" placeholder="ex. Butternut Squash Soup" onChange={(e) => this.handleRecipeChange(e)} />
+        <Input type="text" name="recipeName" placeholder="ex. Butternut Squash Soup" onChange={(e) => this.handleRecipeChange(e)} required />
       </FormGroup>
       <FormGroup>
         <Label for="description">Description</Label>
@@ -135,42 +142,44 @@ class RecipeForm extends Component {
         <Col md={2}>
       <FormGroup>
         <Label for="quantity">Quantity</Label>
-        <Input type="number" name="quantity" onChange={(e) => this.handleRIChange(e, index)} />
+        <Input type="number" min="0" name="quantity" onChange={(e) => this.handleRIChange(e, index)} required />
       </FormGroup>
         </Col>
         <Col md={2}>
       <FormGroup>
         <Label for="quantityType">Unit</Label>
-        <Input type="select" name="quantityType" onChange={(e) => this.handleRIChange(e, index)}>
-          <option>unit</option>
-          <option>tsp.</option>
-          <option>tbsp.</option>
-          <option>cup</option>
-          <option>lb.</option>
-          <option>oz.</option>
+        <Input type="select" name="quantityType" defaultValue="Choose Unit" onChange={(e) => this.handleRIChange(e, index)} required>
+          <option disabled="disabled">Choose Unit</option>
+          <option>Unit</option>
+          <option>Tsp.</option>
+          <option>Tbsp.</option>
+          <option>Cup</option>
+          <option>Lb.</option>
+          <option>Oz.</option>
         </Input>
       </FormGroup>
         </Col>
         <Col md={4}>
       <FormGroup>
         <Label for="ingredientName">Ingredient</Label>
-        <Input type="text" name="ingredientName" onChange={(e) => this.handleIngredientChange(e, index)} />
+        <Input type="text" name="ingredientName" onChange={(e) => this.handleIngredientChange(e, index)} required />
       </FormGroup>
         </Col>
         <Col md={3}>
       <FormGroup>
         <Label for="category">Ingredient Category</Label>
-        <Input type="select" name="category" onChange={(e) => this.handleIngredientChange(e, index)}>
-          <option>produce</option>
-          <option>dairy</option>
-          <option>meat</option>
-          <option>seafood</option>
-          <option>pharmacy</option>
-          <option>bakery</option>
-          <option>deli</option>
-          <option>shelf stable</option>
-          <option>household goods</option>
-          <option>frozen foods</option>
+        <Input type="select" name="category" defaultValue="Choose Ingredient" onChange={(e) => this.handleIngredientChange(e, index)} required>
+          <option disabled="disabled">Choose Ingredient</option>
+          <option>Produce</option>
+          <option>Dairy</option>
+          <option>Meat</option>
+          <option>Seafood</option>
+          <option>Pharmacy</option>
+          <option>Bakery</option>
+          <option>Deli</option>
+          <option>Shelf Stable</option>
+          <option>Household Goods</option>
+          <option>Frozen Foods</option>
         </Input>
       </FormGroup>
         </Col>
