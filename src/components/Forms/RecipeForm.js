@@ -11,13 +11,13 @@ import recipeIngredientsData from '../../helpers/data/recipeIngredientsData';
 
 class RecipeForm extends Component {
   state = {
-    recipe: {
+    recipe: { ...this.props.recipe } || {
       recipeId: '',
       recipeName: '',
       description: '',
       userId: '',
     },
-    ingredients: [
+    ingredients: [...this.props.ingredients] || [
       {
         ingredientId: '',
         ingredientName: '',
@@ -136,6 +136,8 @@ class RecipeForm extends Component {
           recipeIngredientsData.createRecipeIngredient(res);
         }, 1000);
       });
+    } else {
+      recipeData.updateRecipe(this.state.recipe.recipeId, this.state.recipe);
     }
   }
 
