@@ -10,15 +10,11 @@ const createIngredient = (data) => new Promise((resolve, reject) => {
   }).catch((err) => reject(err));
 });
 
-// const getIngredients = (userId) => new Promise((resolve, reject) => {
-//   axios.get(`${baseUrl}/recipes.json?orderBy="userId"&equalTo="${userId}"`).then((res) => {
-//     const recipesObj = res.data;
-//     const userRecipes = [];
-//     Object.keys(recipesObj).forEach((key) => {
-//       userRecipes.push(recipesObj[key]);
-//     });
-//     resolve(userRecipes);
-//   }).catch((err) => reject(err));
-// });
+const getSingleIngredient = (ingredientId) => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/ingredients.json?orderBy="ingredientId"&equalTo="${ingredientId}"`).then((res) => {
+    const ingredientObj = Object.values(res.data);
+    resolve(ingredientObj[0]);
+  }).catch((err) => reject(err));
+});
 
-export default { createIngredient };
+export default { createIngredient, getSingleIngredient };

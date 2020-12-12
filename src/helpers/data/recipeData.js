@@ -21,4 +21,11 @@ const getUserRecipes = (userId) => new Promise((resolve, reject) => {
   }).catch((err) => reject(err));
 });
 
-export default { createRecipe, getUserRecipes };
+const getSingleRecipe = (recipeId) => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/recipes.json?orderBy="recipeId"&equalTo="${recipeId}"`).then((res) => {
+    const recipeArray = Object.values(res.data);
+    resolve(recipeArray[0]);
+  }).catch((err) => reject(err));
+});
+
+export default { createRecipe, getUserRecipes, getSingleRecipe };
