@@ -12,6 +12,7 @@ const createRecipe = (data) => new Promise((resolve, reject) => {
 
 const getUserRecipes = (userId) => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/recipes.json?orderBy="userId"&equalTo="${userId}"`).then((res) => {
+    // console.log(userId);
     const recipesObj = res.data;
     const userRecipes = [];
     Object.keys(recipesObj).forEach((key) => {
