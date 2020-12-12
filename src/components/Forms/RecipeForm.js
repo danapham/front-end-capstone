@@ -72,23 +72,23 @@ class RecipeForm extends Component {
     });
   }
 
-  // handleAddIngredient = () => {
-  //   this.setState({
-  //     ingredients: [...this.state.ingredients,
-  //       {
-  //         ingredientId: '',
-  //         ingredientName: '',
-  //         category: '',
-  //       }],
-  //     recipe_ingredients: [...this.state.recipe_ingredients,
-  //       {
-  //         recipeId: '',
-  //         ingredientId: '',
-  //         quantity: '',
-  //         quantityType: '',
-  //       }],
-  //   });
-  // }
+  handleAddIngredient = () => {
+    this.setState({
+      ingredients: [...this.state.ingredients,
+        {
+          ingredientId: '',
+          ingredientName: '',
+          category: { label: 'Select Category', value: '' },
+        }],
+      recipe_ingredients: [...this.state.recipe_ingredients,
+        {
+          recipeId: '',
+          ingredientId: '',
+          quantity: '',
+          quantityType: '',
+        }],
+    });
+  }
 
   handleDeleteIngredient = (e) => {
     const index = e.target.id;
@@ -142,48 +142,30 @@ class RecipeForm extends Component {
   render() {
     const { ingredients } = this.state;
 
-    const handleAddIngredient = () => {
-      this.setState({
-        ingredients: [...this.state.ingredients,
-          {
-            ingredientId: '',
-            ingredientName: '',
-            category: '',
-          }],
-        recipe_ingredients: [...this.state.recipe_ingredients,
-          {
-            recipeId: '',
-            ingredientId: '',
-            quantity: '',
-            quantityType: '',
-          }],
-      });
-    };
-
     return (
       <>
       <Form onSubmit={this.handleSubmit}>
       <FormGroup>
         <Label for="recipeName">Name</Label>
-        <Input type="text" name="recipeName" placeholder="ex. Butternut Squash Soup" onChange={(e) => this.handleRecipeChange(e)} required />
+        <Input type="text" value={this.state.recipe.recipeName} name="recipeName" placeholder="ex. Butternut Squash Soup" onChange={(e) => this.handleRecipeChange(e)} required />
       </FormGroup>
       <FormGroup>
         <Label for="description">Description</Label>
-        <Input type="text" name="description" onChange={(e) => this.handleRecipeChange(e)} />
+        <Input type="text" value={this.state.recipe.description} name="description" onChange={(e) => this.handleRecipeChange(e)} />
       </FormGroup>
       {ingredients.map((ingredient, index) => <>
           <Row form>
         <Col md={2}>
       <FormGroup>
         <Label for="quantity">Quantity</Label>
-        <Input type="number" min="0" name="quantity" onChange={(e) => this.handleRIChange(e, index)} required />
+        <Input type="number" min="0" step=".01" value={this.state.recipe_ingredients[index].quantity} name="quantity" onChange={(e) => this.handleRIChange(e, index)} required />
       </FormGroup>
         </Col>
         <Col md={2}>
       <FormGroup>
         <Label for="quantityType">Unit</Label>
-        <Input type="select" name="quantityType" defaultValue="Choose Unit" onChange={(e) => this.handleRIChange(e, index)} required>
-          <option disabled="disabled">Choose Unit</option>
+        <Input type="select" name="quantityType" value={this.state.recipe_ingredients[index].quantityType} onChange={(e) => this.handleRIChange(e, index)} required>
+          <option>Choose Unit</option>
           <option>Unit</option>
           <option>Tsp.</option>
           <option>Tbsp.</option>
@@ -196,14 +178,14 @@ class RecipeForm extends Component {
         <Col md={4}>
       <FormGroup>
         <Label for="ingredientName">Ingredient</Label>
-        <Input type="text" name="ingredientName" onChange={(e) => this.handleIngredientChange(e, index)} required />
+        <Input type="text" name="ingredientName" value={this.state.ingredients[index].ingredientName} onChange={(e) => this.handleIngredientChange(e, index)} required />
       </FormGroup>
         </Col>
         <Col md={3}>
       <FormGroup>
         <Label for="category">Ingredient Category</Label>
-        <Input type="select" name="category" defaultValue="Choose Ingredient" onChange={(e) => this.handleIngredientChange(e, index)} required>
-          <option disabled="disabled">Choose Ingredient</option>
+        <Input type="select" name="category" value={this.state.ingredients[index].category} onChange={(e) => this.handleIngredientChange(e, index)} required>
+          <option>Choose Category</option>
           <option>Produce</option>
           <option>Dairy</option>
           <option>Meat</option>
@@ -225,7 +207,7 @@ class RecipeForm extends Component {
       </Row>
       {this.state.ingredients.length - 1 === index && <Row>
         <Col md={{ size: 6, offset: 5 }}>
-        <Button onClick={handleAddIngredient} ><i className="fas fa-plus"></i></Button>
+        <Button onClick={this.handleAddIngredient} ><i className="fas fa-plus"></i></Button>
         </Col>
         </Row>}
         </>)}
