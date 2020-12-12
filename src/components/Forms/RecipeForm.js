@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
 import React, { Component } from 'react';
 import {
   Button, Form, FormGroup, Label, Input, Row, Col,
@@ -5,6 +7,7 @@ import {
 import getUid from '../../helpers/data/authData';
 import recipeData from '../../helpers/data/recipeData';
 import ingredientsData from '../../helpers/data/ingredientsData';
+import recipeIngredientsData from '../../helpers/data/recipeIngredientsData';
 
 class RecipeForm extends Component {
   state = {
@@ -21,7 +24,7 @@ class RecipeForm extends Component {
         category: '',
       },
     ],
-    recipe_ingredient: [
+    recipe_ingredients: [
       {
         recipeId: '',
         ingredientId: '',
@@ -50,13 +53,15 @@ class RecipeForm extends Component {
   }
 
   handleRIChange = (e, index) => {
-    // const ingId = this.state.ingredients[index].ingredientId;
-    // const recId = this.state.recipe.recipeId;
-    const rIArr = [...this.state.recipe_ingredient];
+    const rIArr = [...this.state.recipe_ingredients];
     rIArr[index][e.target.name] = e.target.value;
     this.setState({
-      recipe_ingredient: rIArr,
+      recipe_ingredients: rIArr,
     });
+
+    this.state.recipe_ingredients.map((ing) => this.setState({
+      [ing.ingredientId]: this.state.recipe.recipeId,
+    }));
   }
 
   handleIngredientChange = (e, index) => {
@@ -73,8 +78,30 @@ class RecipeForm extends Component {
         {
           ingredientId: '',
           ingredientName: '',
-          category: '',
+          category: { label: 'Select Category', value: '' },
         }],
+      recipe_ingredients: [...this.state.recipe_ingredients,
+        {
+          recipeId: '',
+          ingredientId: '',
+          quantity: '',
+          quantityType: '',
+        }],
+    });
+  }
+
+  handleDeleteIngredient = (e) => {
+    const index = e.target.id;
+    const ingredientArr = this.state.ingredients;
+    ingredientArr.splice(index, 1);
+    this.setState({
+      ingredients: ingredientArr,
+    });
+
+    const rIArr = this.state.recipe_ingredients;
+    rIArr.splice(index, 1);
+    this.setState({
+      recipe_ingredients: rIArr,
     });
   }
 
@@ -82,76 +109,99 @@ class RecipeForm extends Component {
     e.preventDefault();
 
     if (this.state.recipe.recipeId === '') {
-      recipeData.createRecipe(this.state.recipe)
-        .then(() => {
-          recipeData.getUserRecipes(this.state.recipe.userId);
+      const bigPromise = () => new Promise((resolve, reject) => {
+        recipeData.createRecipe(this.state.recipe)
+          .then((res) => {
+            const rIArray = this.state.recipe_ingredients;
+            rIArray.map((rI) => rI.recipeId = res);
+            this.setState({
+              recipe_ingredients: rIArray,
+            });
+          });
+        const ingredientsArr = this.state.ingredients;
+        const rIArr = this.state.recipe_ingredients;
+        ingredientsArr.forEach((ingredient, i) => {
+          ingredientsData.createIngredient(ingredient).then((res) => {
+            rIArr[i].ingredientId = res;
+          });
         });
-    } else if (this.state.ingredients[0].ingredientId === '') {
-      console.warn('don make sense');
-      this.state.ingredients.map((ingredient) => ingredientsData.createIngredient(ingredient));
+        this.setState({
+          recipe_ingredients: rIArr,
+        });
+        resolve(rIArr).catch((err) => reject(err));
+      });
+
+      bigPromise().then((res) => {
+        setTimeout(() => {
+          recipeIngredientsData.createRecipeIngredient(res);
+        }, 1000);
+      });
     }
   }
 
   render() {
     const { ingredients } = this.state;
+
     return (
       <>
       <Form onSubmit={this.handleSubmit}>
       <FormGroup>
         <Label for="recipeName">Name</Label>
-        <Input type="text" name="recipeName" placeholder="ex. Butternut Squash Soup" onChange={(e) => this.handleRecipeChange(e)} />
+        <Input type="text" value={this.state.recipe.recipeName} name="recipeName" placeholder="ex. Butternut Squash Soup" onChange={(e) => this.handleRecipeChange(e)} required />
       </FormGroup>
       <FormGroup>
         <Label for="description">Description</Label>
-        <Input type="text" name="description" onChange={(e) => this.handleRecipeChange(e)} />
+        <Input type="text" value={this.state.recipe.description} name="description" onChange={(e) => this.handleRecipeChange(e)} />
       </FormGroup>
       {ingredients.map((ingredient, index) => <>
           <Row form>
         <Col md={2}>
       <FormGroup>
         <Label for="quantity">Quantity</Label>
-        <Input type="number" name="quantity" onChange={(e) => this.handleRIChange(e, index)} />
+        <Input type="number" min="0" step=".01" value={this.state.recipe_ingredients[index].quantity} name="quantity" onChange={(e) => this.handleRIChange(e, index)} required />
       </FormGroup>
         </Col>
         <Col md={2}>
       <FormGroup>
         <Label for="quantityType">Unit</Label>
-        <Input type="select" name="quantityType" onChange={(e) => this.handleRIChange(e, index)}>
-          <option>unit</option>
-          <option>tsp.</option>
-          <option>tbsp.</option>
-          <option>cup</option>
-          <option>lb.</option>
-          <option>oz.</option>
+        <Input type="select" name="quantityType" value={this.state.recipe_ingredients[index].quantityType} onChange={(e) => this.handleRIChange(e, index)} required>
+          <option>Choose Unit</option>
+          <option>Unit</option>
+          <option>Tsp.</option>
+          <option>Tbsp.</option>
+          <option>Cup</option>
+          <option>Lb.</option>
+          <option>Oz.</option>
         </Input>
       </FormGroup>
         </Col>
         <Col md={4}>
       <FormGroup>
         <Label for="ingredientName">Ingredient</Label>
-        <Input type="text" name="ingredientName" onChange={(e) => this.handleIngredientChange(e, index)} />
+        <Input type="text" name="ingredientName" value={this.state.ingredients[index].ingredientName} onChange={(e) => this.handleIngredientChange(e, index)} required />
       </FormGroup>
         </Col>
         <Col md={3}>
       <FormGroup>
         <Label for="category">Ingredient Category</Label>
-        <Input type="select" name="category" onChange={(e) => this.handleIngredientChange(e, index)}>
-          <option>produce</option>
-          <option>dairy</option>
-          <option>meat</option>
-          <option>seafood</option>
-          <option>pharmacy</option>
-          <option>bakery</option>
-          <option>deli</option>
-          <option>shelf stable</option>
-          <option>household goods</option>
-          <option>frozen foods</option>
+        <Input type="select" name="category" value={this.state.ingredients[index].category} onChange={(e) => this.handleIngredientChange(e, index)} required>
+          <option>Choose Category</option>
+          <option>Produce</option>
+          <option>Dairy</option>
+          <option>Meat</option>
+          <option>Seafood</option>
+          <option>Pharmacy</option>
+          <option>Bakery</option>
+          <option>Deli</option>
+          <option>Shelf Stable</option>
+          <option>Household Goods</option>
+          <option>Frozen Foods</option>
         </Input>
       </FormGroup>
         </Col>
       <Col md={1}>
         <FormGroup>
-      <Button><i className="fas fa-trash"></i></Button>
+      <Button id={index} onClick={(e) => this.handleDeleteIngredient(e)} ><i id={index} className="fas fa-trash"></i></Button>
         </FormGroup>
       </Col>
       </Row>

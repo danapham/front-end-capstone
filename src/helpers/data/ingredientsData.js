@@ -2,10 +2,13 @@ import axios from 'axios';
 
 const baseUrl = 'https://front-end-capstone-d9988-default-rtdb.firebaseio.com';
 
-const createIngredient = (data) => axios.post(`${baseUrl}/ingredients.json`, data).then((res) => {
-  const firebaseKey = res.data.name;
-  axios.patch(`${baseUrl}/ingredients/${firebaseKey}.json`, { ingredientId: firebaseKey });
-}).catch((err) => console.warn(err));
+const createIngredient = (data) => new Promise((resolve, reject) => {
+  axios.post(`${baseUrl}/ingredients.json`, data).then((res) => {
+    const firebaseKey = res.data.name;
+    axios.patch(`${baseUrl}/ingredients/${firebaseKey}.json`, { ingredientId: firebaseKey });
+    resolve(firebaseKey);
+  }).catch((err) => reject(err));
+});
 
 // const getIngredients = (userId) => new Promise((resolve, reject) => {
 //   axios.get(`${baseUrl}/recipes.json?orderBy="userId"&equalTo="${userId}"`).then((res) => {
