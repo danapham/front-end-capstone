@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardText } from 'reactstrap';
 
 class RecipeCard extends Component {
@@ -8,9 +9,11 @@ class RecipeCard extends Component {
     const { recipe } = this.props;
     return (
       <>
+      <Link className="recipe-card-link" to={`/single-recipe/${recipe.recipeId}`}>
         <Card className="recipe-card">
-    <CardText className="recipe-card-text">{recipe.recipeName}</CardText>
+          <CardText className="recipe-card-text">{recipe.recipeName}</CardText>
         </Card>
+      </Link>
       </>
     );
   }

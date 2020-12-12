@@ -16,7 +16,7 @@ class Routes extends Component {
         <Route exact path='/not-found' component={NotFound} />
         <PrivateRoute exact path='/recipes' component={Recipes} user={authed} />
         <UserRedirect exact path='/sign-in-page' component={SignInPage} user={authed} />
-        <PrivateRoute exact path='/single-recipe' component={SingleRecipe} />
+        <PrivateRoute exact path='/single-recipe/:id' component={SingleRecipe} user={authed} />
       </Switch>
     );
   }
