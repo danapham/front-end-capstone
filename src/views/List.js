@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ListGroup, ListGroupItem, Input } from 'reactstrap';
 import AppModal from '../components/AppModal';
 import Auth from '../components/Auth';
 import AddByRecipe from '../components/Forms/AddByRecipe';
@@ -27,20 +28,21 @@ class List extends Component {
 
   getListIngredients = async () => {
     const listIngredients = await listIngredientsData.getListIngredients(this.state.listId);
+    const ingredientsArray = [];
     listIngredients.forEach((ingredient) => {
       const promise1 = recipeIngredientsData.getByIngredient(ingredient.ingredientId);
       const promise2 = ingredientsData.getSingleIngredient(ingredient.ingredientId);
 
       Promise.all([promise1, promise2]).then((res) => {
-        const ingredientsArray = [...this.state.ingredients, {
+        ingredientsArray.push({
           ingredientId: ingredient.ingredientId,
           recipeId: res[0][0].recipeId,
-          name: res[1].ingredientName,
+          ingredientName: res[1].ingredientName,
           category: res[1].category,
           quantity: res[0][0].quantity,
           quantityType: res[0][0].quantityType,
           checked: ingredient.checked,
-        }];
+        });
 
         this.setState({
           ingredients: ingredientsArray,
@@ -56,8 +58,11 @@ class List extends Component {
       component = <>
         <h1>Shopping List</h1>
         <AppModal buttonLabel='Add By Recipe' title='Choose Recipes'>
-          <AddByRecipe listId={this.state.listId} />
+          <AddByRecipe listId={this.state.listId} onUpdate={this.getListIngredients} />
         </AppModal>
+        {this.state.ingredients.map((ingredient) => <ListGroup>
+          <ListGroupItem><Input type="checkbox" />{`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName}`}</ListGroupItem>
+        </ListGroup>)}
         </>;
     } else {
       component = <Auth />;

@@ -47,7 +47,7 @@ class AddByRecipe extends Component {
         listId: this.props.listId,
         ingredientId: ingredient.ingredientId,
         checked: false,
-      });
+      }).then(() => this.props.onUpdate());
     });
   }
 
