@@ -15,10 +15,16 @@ const getRecipeIngredients = (recipeId) => new Promise((resolve, reject) => {
   }).catch((err) => reject(err));
 });
 
+const getByIngredient = (ingredientId) => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/recipe-ingredients.json?orderBy="ingredientId"&equalTo="${ingredientId}"`).then((res) => {
+    resolve(Object.values(res.data));
+  }).catch((err) => reject(err));
+});
+
 const updateRecipeIngredient = (rIngredientId, data) => axios.patch(`${baseUrl}/recipe-ingredients/${rIngredientId}.json`, data);
 
 const deleteRecipeIngredient = (firebaseKey) => axios.delete(`${baseUrl}/recipe-ingredients/${firebaseKey}.json`);
 
 export default {
-  createRecipeIngredient, getRecipeIngredients, updateRecipeIngredient, deleteRecipeIngredient,
+  createRecipeIngredient, getRecipeIngredients, updateRecipeIngredient, deleteRecipeIngredient, getByIngredient,
 };

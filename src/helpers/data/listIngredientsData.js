@@ -7,4 +7,10 @@ const createListIngredient = (data) => axios.post(`${baseUrl}/list-ingredients.j
   axios.patch(`${baseUrl}/list-ingredients/${firebaseKey}.json`, { firebaseKey });
 }).catch((err) => console.warn(err));
 
-export default { createListIngredient };
+const getListIngredients = (listId) => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/list-ingredients.json?orderBy="listId"&equalTo="${listId}"`).then((res) => {
+    resolve(Object.values(res.data));
+  }).catch((err) => reject(err));
+});
+
+export default { createListIngredient, getListIngredients };
