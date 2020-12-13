@@ -40,7 +40,7 @@ const MyNavbar = (props) => {
             </Nav>
             <Nav>
           <UncontrolledDropdown nav inNavbar className="ml-auto">
-              <DropdownToggle nav>
+              <DropdownToggle nav caret>
                 <img src={props.user.photoURL} alt="user pic" className="profile-pic" />
               </DropdownToggle>
               <DropdownMenu right>
