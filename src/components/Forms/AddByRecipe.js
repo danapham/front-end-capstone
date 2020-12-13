@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Form, FormGroup, Label, Input,
+  Form, FormGroup, Label, Input, Button,
 } from 'reactstrap';
 import getUid from '../../helpers/data/authData';
 import recipeData from '../../helpers/data/recipeData';
@@ -20,14 +20,17 @@ class AddByRecipe extends Component {
   }
 
   render() {
+    const { recipes } = this.state;
     return (
       <>
       <Form>
-        <FormGroup>
-          <Label>Select Recipes</Label>
-          <Input type="select">
-          </Input>
-        </FormGroup>
+        {recipes.map((recipe) => <FormGroup check>
+          <Label check>
+          <Input type="checkbox" />
+            {recipe.recipeName}
+          </Label>
+        </FormGroup>)}
+        <Button>Submit</Button>
       </Form>
       </>
     );
