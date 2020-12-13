@@ -4,10 +4,12 @@ import {
 } from 'reactstrap';
 import getUid from '../../helpers/data/authData';
 import recipeData from '../../helpers/data/recipeData';
+import recipeIngredientsData from '../../helpers/data/recipeIngredientsData';
 
 class AddByRecipe extends Component {
   state = {
     recipes: [],
+    ingredients: [],
   }
 
   componentDidMount() {
@@ -19,14 +21,35 @@ class AddByRecipe extends Component {
     });
   }
 
+  handleChange = (e) => {
+    if (e.target.checked) {
+      recipeIngredientsData.getRecipeIngredients(e.target.id).then((res) => {
+        const ingredientsArray = [...this.state.ingredients, ...res];
+        this.setState({
+          ingredients: ingredientsArray,
+        });
+      });
+    } else {
+      const ingredientsArray = this.state.ingredients;
+      const newArray = ingredientsArray.filter((ingredient) => ingredient.recipeId !== e.target.id);
+      this.setState({
+        ingredients: newArray,
+      });
+    }
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
   render() {
     const { recipes } = this.state;
     return (
       <>
-      <Form>
+      <Form onSubmit={(e) => this.handleSubmit(e)}>
         {recipes.map((recipe) => <FormGroup check>
           <Label check>
-          <Input type="checkbox" />
+          <Input type="checkbox" id={recipe.recipeId} onChange={(e) => this.handleChange(e)} />
             {recipe.recipeName}
           </Label>
         </FormGroup>)}
