@@ -3,6 +3,8 @@ import { ListGroup, ListGroupItem } from 'reactstrap';
 import recipeData from '../helpers/data/recipeData';
 import recipeIngredientsData from '../helpers/data/recipeIngredientsData';
 import ingredientsData from '../helpers/data/ingredientsData';
+import AppModal from '../components/AppModal';
+import RecipeForm from '../components/Forms/RecipeForm';
 
 class SingleRecipe extends Component {
   state = {
@@ -12,6 +14,10 @@ class SingleRecipe extends Component {
   }
 
   componentDidMount() {
+    this.getRecipeData();
+  }
+
+  getRecipeData = () => {
     const recipeId = this.props.match.params.id;
     recipeData.getSingleRecipe(recipeId).then((res) => {
       this.setState({
@@ -23,40 +29,30 @@ class SingleRecipe extends Component {
         recipeIngredients: res,
       });
     }).then(() => {
-      this.getIngredients();
-    });
-  }
-
-  getIngredients = () => {
-    this.state.recipeIngredients.forEach((rIngredient) => {
-      ingredientsData.getSingleIngredient(rIngredient.ingredientId).then((res) => {
-        const ingredients = [...this.state.ingredients, res];
-        this.setState({
-          ingredients,
-        });
+      const ingredientsArr = [];
+      this.state.recipeIngredients.forEach((rIngredient) => {
+        ingredientsData.getSingleIngredient(rIngredient.ingredientId).then((res) => {
+          const ingredient = { ...rIngredient, ...res };
+          ingredientsArr.push(ingredient);
+        }).then(() => this.setState({
+          ingredients: ingredientsArr,
+        }));
       });
     });
   }
 
   render() {
-    const { recipe, recipeIngredients, ingredients } = this.state;
-    const renderIngredients = () => {
-      const listItems = [];
-      if (ingredients.length === recipeIngredients.length) {
-        recipeIngredients.forEach((rIngredient) => {
-          const correctIngredient = ingredients.filter((ingredient) => ingredient.ingredientId === rIngredient.ingredientId);
-          listItems.push(<ListGroupItem>{`${rIngredient.quantity} ${rIngredient.quantityType} ${correctIngredient[0].ingredientName}`}</ListGroupItem>);
-        });
-      }
-      return listItems;
-    };
+    const { recipe, ingredients } = this.state;
     return (
       <div>
       <h1>{recipe.recipeName}</h1>
       <h5>{recipe.description}</h5>
       <ListGroup>
-        {renderIngredients()}
+        {ingredients.map((ingredient) => (<ListGroupItem>{`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName}`}</ListGroupItem>))}
       </ListGroup>
+      <AppModal buttonLabel="Edit" title="Edit Recipe" className="recipe-form">
+        <RecipeForm recipe={this.state.recipe} ingredients={this.state.ingredients} onUpdate={this.getRecipeData} />
+      </AppModal>
       </div>
     );
   }

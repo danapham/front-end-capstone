@@ -28,4 +28,8 @@ const getSingleRecipe = (recipeId) => new Promise((resolve, reject) => {
   }).catch((err) => reject(err));
 });
 
-export default { createRecipe, getUserRecipes, getSingleRecipe };
+const updateRecipe = (recipeId, data) => axios.patch(`${baseUrl}/recipes/${recipeId}.json`, data);
+
+export default {
+  createRecipe, getUserRecipes, getSingleRecipe, updateRecipe,
+};
