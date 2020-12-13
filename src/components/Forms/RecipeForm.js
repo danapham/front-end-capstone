@@ -74,10 +74,12 @@ class RecipeForm extends Component {
 
   handleDeleteIngredient = (e) => {
     const index = e.target.id;
-    const ingredientArr = this.state.ingredients;
-    ingredientArr.splice(index, 1);
+    const { ingredientId, firebaseKey } = this.state.ingredients[index];
+    ingredientsData.deleteIngredient(ingredientId).then(() => recipeIngredientsData.deleteRecipeIngredient(firebaseKey)).then(() => this.props.onUpdate());
+    const ingredientsArr = this.state.ingredients;
+    ingredientsArr.splice(index, 1);
     this.setState({
-      ingredients: ingredientArr,
+      ingredients: ingredientsArr,
     });
   }
 
@@ -93,6 +95,7 @@ class RecipeForm extends Component {
             ingredients: ingredientsArray,
           });
         });
+
       const promise2 = this.state.ingredients.forEach((ingredient, i) => {
         ingredientsData.createIngredient({
           ingredientName: ingredient.ingredientName,
@@ -105,6 +108,7 @@ class RecipeForm extends Component {
           });
         });
       });
+
       Promise.all([promise1, promise2]).then(() => {
         setTimeout(() => {
           this.state.ingredients.forEach((ingredient) => {
@@ -122,33 +126,36 @@ class RecipeForm extends Component {
         });
     } else {
       const promise1 = recipeData.updateRecipe(this.state.recipe.recipeId, this.state.recipe);
-      const promise2 = this.state.ingredients.forEach((ingredient) => {
-        if (ingredient.firebaseKey === '') {
-          ingredientsData.createIngredient({
-            ingredientName: ingredient.ingredientName,
-            category: ingredient.category,
-          }).then((res) => {
-            recipeIngredientsData.createRecipeIngredient({
-              quantity: ingredient.quantity,
-              quantityType: ingredient.quantityType,
-              ingredientId: res,
-              recipeId: this.state.recipe.recipeId,
+
+      const promise2 = new Promise((resolve, reject) => {
+        this.state.ingredients.forEach((ingredient) => {
+          if (ingredient.firebaseKey === '') {
+            ingredientsData.createIngredient({
+              ingredientName: ingredient.ingredientName,
+              category: ingredient.category,
+            }).then((res) => {
+              recipeIngredientsData.createRecipeIngredient({
+                quantity: ingredient.quantity,
+                quantityType: ingredient.quantityType,
+                ingredientId: res,
+                recipeId: this.state.recipe.recipeId,
+              });
+              this.props.onUpdate();
+            }).then(() => this.props.onUpdate());
+          } else {
+            ingredientsData.updateIngredient(ingredient.ingredientId, {
+              ingredientName: ingredient.ingredientName,
+              category: ingredient.category,
+            }).then(() => {
+              recipeIngredientsData.updateRecipeIngredient(ingredient.firebaseKey, {
+                quantity: ingredient.quantity,
+                quantityType: ingredient.quantityType,
+              });
             });
-          });
-        } else if (this.state.ingredients) {
-          // delete the ingredient and recipe-ingredient
-        } else {
-          ingredientsData.updateIngredient(ingredient.ingredientId, {
-            ingredientName: ingredient.ingredientName,
-            category: ingredient.category,
-          }).then(() => {
-            recipeIngredientsData.updateRecipeIngredient(ingredient.firebaseKey, {
-              quantity: ingredient.quantity,
-              quantityType: ingredient.quantityType,
-            });
-          });
-        }
+          }
+        });
       });
+
       Promise.all([promise1, promise2]).then(() => {
         this.props.onUpdate();
       });

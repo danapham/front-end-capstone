@@ -17,4 +17,8 @@ const getRecipeIngredients = (recipeId) => new Promise((resolve, reject) => {
 
 const updateRecipeIngredient = (rIngredientId, data) => axios.patch(`${baseUrl}/recipe-ingredients/${rIngredientId}.json`, data);
 
-export default { createRecipeIngredient, getRecipeIngredients, updateRecipeIngredient };
+const deleteRecipeIngredient = (firebaseKey) => axios.delete(`${baseUrl}/recipe-ingredients/${firebaseKey}.json`);
+
+export default {
+  createRecipeIngredient, getRecipeIngredients, updateRecipeIngredient, deleteRecipeIngredient,
+};

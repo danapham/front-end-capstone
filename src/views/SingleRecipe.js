@@ -41,22 +41,6 @@ class SingleRecipe extends Component {
     });
   }
 
-  // organizeIngredients = () => {
-  //   const recipeIngredients = [];
-  //   const ingredients = [];
-  //   if (this.state.ingredients.length === this.state.recipeIngredients.length) {
-  //     this.state.recipeIngredients.forEach((rIngredient) => {
-  //       const correctIngredient = ingredients.filter((ingredient) => this.state.ingredient.ingredientId === rIngredient.ingredientId);
-  //       recipeIngredients.push(rIngredient);
-  //       ingredients.push(correctIngredient[0]);
-  //     });
-  //     this.setState({
-  //       recipeIngredients,
-  //       ingredients,
-  //     });
-  //   }
-  // }
-
   render() {
     const { recipe, ingredients } = this.state;
     return (

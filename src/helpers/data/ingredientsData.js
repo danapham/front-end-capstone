@@ -19,4 +19,8 @@ const getSingleIngredient = (ingredientId) => new Promise((resolve, reject) => {
 
 const updateIngredient = (ingredientId, data) => axios.patch(`${baseUrl}/ingredients/${ingredientId}.json`, data);
 
-export default { createIngredient, getSingleIngredient, updateIngredient };
+const deleteIngredient = (ingredientId) => axios.delete(`${baseUrl}/ingredients/${ingredientId}.json`);
+
+export default {
+  createIngredient, getSingleIngredient, updateIngredient, deleteIngredient,
+};
