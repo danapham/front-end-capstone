@@ -14,6 +14,10 @@ class SingleRecipe extends Component {
   }
 
   componentDidMount() {
+    this.getRecipeData();
+  }
+
+  getRecipeData = () => {
     const recipeId = this.props.match.params.id;
     recipeData.getSingleRecipe(recipeId).then((res) => {
       this.setState({
@@ -25,19 +29,15 @@ class SingleRecipe extends Component {
         recipeIngredients: res,
       });
     }).then(() => {
-      this.getIngredients();
-    });
-  }
-
-  getIngredients = () => {
-    const ingredientsArr = [];
-    this.state.recipeIngredients.forEach((rIngredient) => {
-      ingredientsData.getSingleIngredient(rIngredient.ingredientId).then((res) => {
-        const ingredient = { ...rIngredient, ...res };
-        ingredientsArr.push(ingredient);
-      }).then(() => this.setState({
-        ingredients: ingredientsArr,
-      }));
+      const ingredientsArr = [];
+      this.state.recipeIngredients.forEach((rIngredient) => {
+        ingredientsData.getSingleIngredient(rIngredient.ingredientId).then((res) => {
+          const ingredient = { ...rIngredient, ...res };
+          ingredientsArr.push(ingredient);
+        }).then(() => this.setState({
+          ingredients: ingredientsArr,
+        }));
+      });
     });
   }
 
@@ -59,7 +59,6 @@ class SingleRecipe extends Component {
 
   render() {
     const { recipe, ingredients } = this.state;
-
     return (
       <div>
       <h1>{recipe.recipeName}</h1>
@@ -68,7 +67,7 @@ class SingleRecipe extends Component {
         {ingredients.map((ingredient) => (<ListGroupItem>{`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName}`}</ListGroupItem>))}
       </ListGroup>
       <AppModal buttonLabel="Edit" title="Edit Recipe" className="recipe-form">
-        <RecipeForm recipe={this.state.recipe} ingredients={this.state.ingredients} />
+        <RecipeForm recipe={this.state.recipe} ingredients={this.state.ingredients} onUpdate={this.getRecipeData} />
       </AppModal>
       </div>
     );

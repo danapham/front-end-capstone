@@ -3,9 +3,10 @@ import axios from 'axios';
 const baseUrl = 'https://front-end-capstone-d9988-default-rtdb.firebaseio.com';
 
 const createRecipeIngredient = (data) => {
-  data.forEach((rIngredient) => {
-    axios.post(`${baseUrl}/recipe-ingredients.json`, rIngredient);
-  });
+  axios.post(`${baseUrl}/recipe-ingredients.json`, data).then((res) => {
+    const firebaseKey = res.data.name;
+    axios.patch(`${baseUrl}/recipe-ingredients/${firebaseKey}.json`, { firebaseKey });
+  }).catch((err) => console.warn(err));
 };
 
 const getRecipeIngredients = (recipeId) => new Promise((resolve, reject) => {
@@ -14,4 +15,6 @@ const getRecipeIngredients = (recipeId) => new Promise((resolve, reject) => {
   }).catch((err) => reject(err));
 });
 
-export default { createRecipeIngredient, getRecipeIngredients };
+const updateRecipeIngredient = (rIngredientId, data) => axios.patch(`${baseUrl}/recipe-ingredients/${rIngredientId}.json`, data);
+
+export default { createRecipeIngredient, getRecipeIngredients, updateRecipeIngredient };
