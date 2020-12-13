@@ -5,6 +5,7 @@ import {
 import getUid from '../../helpers/data/authData';
 import recipeData from '../../helpers/data/recipeData';
 import recipeIngredientsData from '../../helpers/data/recipeIngredientsData';
+import listIngredientsData from '../../helpers/data/listIngredientsData';
 
 class AddByRecipe extends Component {
   state = {
@@ -40,6 +41,14 @@ class AddByRecipe extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+
+    this.state.ingredients.forEach((ingredient) => {
+      listIngredientsData.createListIngredient({
+        listId: this.props.listId,
+        ingredientId: ingredient.ingredientId,
+        checked: false,
+      });
+    });
   }
 
   render() {

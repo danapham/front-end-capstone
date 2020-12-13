@@ -26,7 +26,7 @@ class List extends Component {
       component = <>
         <h1>Shopping List</h1>
         <AppModal buttonLabel='Add By Recipe' title='Choose Recipes'>
-          <AddByRecipe />
+          <AddByRecipe listId={this.state.listId} />
         </AppModal>
         </>;
     } else {
