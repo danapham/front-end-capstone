@@ -1,4 +1,5 @@
 import axios from 'axios';
+import recipeIngredientsData from './recipeIngredientsData';
 
 const baseUrl = 'https://front-end-capstone-d9988-default-rtdb.firebaseio.com';
 
@@ -30,6 +31,15 @@ const getSingleRecipe = (recipeId) => new Promise((resolve, reject) => {
 
 const updateRecipe = (recipeId, data) => axios.patch(`${baseUrl}/recipes/${recipeId}.json`, data);
 
+const deleteRecipe = (recipeId) => axios.get(`${baseUrl}/recipe-ingredients.json?orderBy="recipeId"&equalTo="${recipeId}"`).then((res) => {
+  const ingredientKeys = Object.keys(res.data);
+  ingredientKeys.forEach((key) => {
+    recipeIngredientsData.deleteRecipeIngredient(key);
+  });
+}).then(() => {
+  axios.delete(`${baseUrl}/recipes/${recipeId}.json`);
+});
+
 export default {
-  createRecipe, getUserRecipes, getSingleRecipe, updateRecipe,
+  createRecipe, getUserRecipes, getSingleRecipe, updateRecipe, deleteRecipe,
 };
