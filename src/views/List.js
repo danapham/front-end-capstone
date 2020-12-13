@@ -60,8 +60,11 @@ class List extends Component {
         <AppModal buttonLabel='Add By Recipe' title='Choose Recipes'>
           <AddByRecipe listId={this.state.listId} onUpdate={this.getListIngredients} />
         </AppModal>
-        {this.state.ingredients.map((ingredient) => <ListGroup>
-          <ListGroupItem><Input type="checkbox" />{`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName}`}</ListGroupItem>
+        {this.state.ingredients.map((ingredient) => <ListGroup key={ingredient.ingredientId}>
+          <ListGroupItem key={ingredient.ingredientId}>
+            <Input type="checkbox" key={ingredient.ingredientId} />
+            {`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName}`}
+            </ListGroupItem>
         </ListGroup>)}
         </>;
     } else {
