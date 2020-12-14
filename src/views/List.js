@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  ListGroup, ListGroupItem, Input, Button,
+  ListGroup, ListGroupItem, Input,
 } from 'reactstrap';
 import AppModal from '../components/AppModal';
 import Auth from '../components/Auth';
@@ -65,6 +65,19 @@ class List extends Component {
     });
   }
 
+  combineIngredients = () => {
+    // const findDuplicates = (arr) => arr.filter((item, index) => arr.indexOf(item.ingredientName) !== index);
+    // const duplicates = findDuplicates(this.state.ingredients);
+    // console.log(duplicates);
+    // this.state.ingredients.map((ingredient) => <ListGroup key={ingredient.ingredientId}>
+    //       <ListGroupItem key={ingredient.ingredientId}>
+    //         <Input type="checkbox" key={ingredient.ingredientId} />
+    //         {`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName} `}
+    //         <i className="far fa-trash-alt" id={ingredient.ingredientId} onClick={(e) => this.deleteListIngredient(e)}></i>
+    //         </ListGroupItem>
+    //     </ListGroup>);
+  }
+
   loadComponent = () => {
     let component = '';
 
@@ -72,15 +85,9 @@ class List extends Component {
       component = <>
         <h1>Shopping List</h1>
         <AppModal buttonLabel='Add By Recipe' title='Choose Recipes'>
-          <AddByRecipe listId={this.state.listId} onUpdate={this.getListIngredients} />
+          <AddByRecipe listId={this.state.listId} listIngredients={this.state.ingredients} onUpdate={this.getListIngredients} />
         </AppModal>
-        {this.state.ingredients.map((ingredient) => <ListGroup key={ingredient.ingredientId}>
-          <ListGroupItem key={ingredient.ingredientId}>
-            <Input type="checkbox" key={ingredient.ingredientId} />
-            {`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName} `}
-            <i className="far fa-trash-alt" id={ingredient.ingredientId} onClick={(e) => this.deleteListIngredient(e)}></i>
-            </ListGroupItem>
-        </ListGroup>)}
+        {this.combineIngredients()}
         </>;
     } else {
       component = <Auth />;
