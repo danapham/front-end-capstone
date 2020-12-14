@@ -13,4 +13,6 @@ const getListIngredients = (listId) => new Promise((resolve, reject) => {
   }).catch((err) => reject(err));
 });
 
-export default { createListIngredient, getListIngredients };
+const deleteListIngredient = (firebaseKey) => axios.delete(`${baseUrl}/list-ingredients/${firebaseKey}.json`);
+
+export default { createListIngredient, getListIngredients, deleteListIngredient };

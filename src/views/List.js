@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem, Input } from 'reactstrap';
+import {
+  ListGroup, ListGroupItem, Input, Button,
+} from 'reactstrap';
 import AppModal from '../components/AppModal';
 import Auth from '../components/Auth';
 import AddByRecipe from '../components/Forms/AddByRecipe';
@@ -35,6 +37,7 @@ class List extends Component {
 
       Promise.all([promise1, promise2]).then((res) => {
         ingredientsArray.push({
+          firebaseKey: ingredient.firebaseKey,
           ingredientId: ingredient.ingredientId,
           recipeId: res[0][0].recipeId,
           ingredientName: res[1].ingredientName,
@@ -51,6 +54,17 @@ class List extends Component {
     });
   };
 
+  deleteListIngredient = (e) => {
+    const ingredientsArray = this.state.ingredients;
+    ingredientsArray.forEach((ingredient) => {
+      listIngredientsData.deleteListIngredient(ingredient.firebaseKey);
+    });
+    const newArray = ingredientsArray.filter((ingredient) => ingredient.ingredientId !== e.target.id);
+    this.setState({
+      ingredients: newArray,
+    });
+  }
+
   loadComponent = () => {
     let component = '';
 
@@ -63,7 +77,8 @@ class List extends Component {
         {this.state.ingredients.map((ingredient) => <ListGroup key={ingredient.ingredientId}>
           <ListGroupItem key={ingredient.ingredientId}>
             <Input type="checkbox" key={ingredient.ingredientId} />
-            {`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName}`}
+            {`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName} `}
+            <i className="far fa-trash-alt" id={ingredient.ingredientId} onClick={(e) => this.deleteListIngredient(e)}></i>
             </ListGroupItem>
         </ListGroup>)}
         </>;
