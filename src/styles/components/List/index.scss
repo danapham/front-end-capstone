@@ -1,8 +1,14 @@
+.list-page {
+  display: flex;
+  justify-content: center;
+}
+
 .list-div {
   border: 1px solid $color1;
   border-radius: 5px;
   margin: 5% 20%;
   padding: 3%;
+  width: 50%;
 }
 
 .list-h1 {
@@ -13,4 +19,21 @@
   background-color: $color4;
   border-color: $color3;
   margin-bottom: 5%;
+}
+
+.list-group-item {
+  border: none;
+  text-align: left;
+  padding: 3% 5% 2% 5%;
+}
+
+.list-items-container {
+  margin: 0 25%;
+}
+
+.list-checkbox {
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 5%;
+  position: initial;
 }

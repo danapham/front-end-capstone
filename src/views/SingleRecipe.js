@@ -50,7 +50,7 @@ class SingleRecipe extends Component {
       <ListGroup>
         {ingredients.map((ingredient) => (<ListGroupItem>{`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName}`}</ListGroupItem>))}
       </ListGroup>
-      <AppModal buttonLabel="Edit" title="Edit Recipe" className="recipe-form">
+      <AppModal buttonLabel="Edit" title="Edit Recipe" contentclassName="recipe-form">
         <RecipeForm recipe={this.state.recipe} ingredients={this.state.ingredients} onUpdate={this.getRecipeData} />
       </AppModal>
       </div>

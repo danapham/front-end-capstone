@@ -55,14 +55,19 @@ class AddByRecipe extends Component {
     const { recipes } = this.state;
     return (
       <>
-      <Form onSubmit={(e) => this.handleSubmit(e)}>
-        {recipes.map((recipe) => <FormGroup check>
+      <Form className="add-by-recipe-form" onSubmit={(e) => this.handleSubmit(e)}>
+        <h2 className="add-by-recipe-h2">Add Items By Recipe:</h2>
+        <div className="recipe-list-item-container">
+        {recipes.map((recipe) => <FormGroup className="recipe-list-item" check>
           <Label check>
           <Input type="checkbox" id={recipe.recipeId} onChange={(e) => this.handleChange(e)} />
             {recipe.recipeName}
           </Label>
         </FormGroup>)}
-        <Button>Submit</Button>
+        </div>
+        <div className="submit-btn-div">
+        <Button className="add-by-recipe-submit"><i className="fas fa-plus"></i></Button>
+        </div>
       </Form>
       </>
     );
