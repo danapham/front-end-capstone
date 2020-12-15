@@ -4,21 +4,29 @@
 }
 
 .list-div {
-  border: 1px solid $color1;
-  border-radius: 5px;
-  margin: 5% 20%;
+  border: 3px solid $color4;
+  margin: 4% 20%;
   padding: 3%;
-  width: 50%;
+  width: 35%;
+  height: 80vh;
 }
 
 .list-h1 {
   margin-bottom: 2%;
+  font-family: $primary-font;
+  font-weight: 400;
+  font-size: 300%;
 }
 
 .add-by-recipe-btn {
-  background-color: $color4;
-  border-color: $color3;
+  background-color: $color0;
+  border: $color0 solid 1px;
   margin-bottom: 5%;
+}
+
+.add-by-recipe-btn:hover {
+  background-color: $color1;
+  border: $color1 solid 1px;
 }
 
 .list-group-item {
@@ -36,4 +44,8 @@
   height: 1.5em;
   margin-right: 5%;
   position: initial;
+}
+
+.list-item-text {
+  color: $color6;
 }

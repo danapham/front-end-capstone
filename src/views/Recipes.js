@@ -31,7 +31,7 @@ class Recipes extends Component {
     return (
       <>
       <h1 className="recipes-page-h1">Recipes</h1>
-      <AppModal buttonLabel={<i className="fas fa-plus"></i>} contentClassName="recipe-form" modalClassName="recipe-form-modal">
+      <AppModal buttonLabel={<i className="fas fa-plus"></i>} className="add-recipe-btn" contentClassName="recipe-form" modalClassName="recipe-form-modal">
         <RecipeForm onUpdate={this.getRecipes} />
       </AppModal>
       <div className="recipe-card-container">

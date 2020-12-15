@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardText, Button } from 'reactstrap';
+import { Card, CardText } from 'reactstrap';
 import recipeData from '../../helpers/data/recipeData';
 
 class RecipeCard extends Component {
@@ -19,7 +19,7 @@ class RecipeCard extends Component {
       <Link className="recipe-card-link" to={`/single-recipe/${recipe.recipeId}`}>
         <Card className="recipe-card">
           <CardText className="recipe-card-text">{recipe.recipeName}</CardText>
-          <Button id={recipe.recipeId} onClick={(e) => this.deleteRecipe(e)}><i class="far fa-trash-alt"></i></Button>
+          <i className="far fa-trash-alt delete-recipe-btn" id={recipe.recipeId} onClick={(e) => this.deleteRecipe(e)}></i>
         </Card>
       </Link>
       </>

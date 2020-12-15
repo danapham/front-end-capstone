@@ -11,9 +11,21 @@
   padding: 0;
 }
 
+nav {
+  background-image: linear-gradient(to right, $color0, $color1);
+}
+
+.nav-link {
+  color: $color2 !important;
+  font-family: $secondary-font;
+  font-weight: 300;
+}
+
 .navbar-brand {
-  margin: 0;
   padding: 0 0 0 1%;
   display: flex;
   justify-content: flex-start;
+  font-family: $tertiary-font;
+  color: $color2 !important;
+  letter-spacing: 1px;
 }
