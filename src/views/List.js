@@ -70,8 +70,9 @@ class List extends Component {
 
     if (this.props.user) {
       component = <>
-        <h1>Shopping List</h1>
-        <AppModal buttonLabel='Add By Recipe' title='Choose Recipes'>
+      <div className="list-div">
+        <h1 className="list-h1">Shopping List</h1>
+        <AppModal buttonLabel='Add By Recipe' title='Choose Recipes' className="add-by-recipe-btn">
           <AddByRecipe listId={this.state.listId} listIngredients={this.state.ingredients} onUpdate={this.getListIngredients} />
         </AppModal>
         {this.state.ingredients.map((ingredient) => <ListGroup key={ingredient.firebaseKey}>
@@ -81,6 +82,7 @@ class List extends Component {
             <i className="far fa-trash-alt" id={ingredient.firebaseKey} onClick={(e) => this.deleteListIngredient(e)}></i>
             </ListGroupItem>
         </ListGroup>)}
+        </div>
         </>;
     } else {
       component = <Auth />;

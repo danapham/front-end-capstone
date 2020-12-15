@@ -1,0 +1,22 @@
+.sign-in-container {
+  display: flex;
+  justify-content: center;
+}
+
+.sign-in-div {
+  border: 2px $color4 solid;
+  border-radius: 5px;
+  padding: 5%;
+  margin-top: 5%;
+  background-color: $color2;
+}
+
+.sign-in-h1 {
+  margin: 15%;
+}
+
+.sign-in-btn {
+  background-color: $color4;
+  border-color: $color3;
+  margin-bottom: 15%;
+}

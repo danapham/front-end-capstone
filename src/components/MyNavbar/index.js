@@ -14,6 +14,7 @@ import {
   DropdownItem,
   DropdownMenu,
 } from 'reactstrap';
+import logo from './gredients-logo.png';
 
 const MyNavbar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +28,7 @@ const MyNavbar = (props) => {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand tag={Link} to="/">gredients</NavbarBrand>
+        <NavbarBrand tag={Link} to="/"><img src={logo} alt="gredients logo" className="nav-logo"/></NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
