@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-// import {
-//   ListGroup, ListGroupItem, Input,
-// } from 'reactstrap';
+import {
+  ListGroup, ListGroupItem, Input,
+} from 'reactstrap';
 import AppModal from '../components/AppModal';
 import Auth from '../components/Auth';
 import AddByRecipe from '../components/Forms/AddByRecipe';
@@ -59,23 +59,10 @@ class List extends Component {
     ingredientsArray.forEach((ingredient) => {
       listIngredientsData.deleteListIngredient(ingredient.firebaseKey);
     });
-    const newArray = ingredientsArray.filter((ingredient) => ingredient.ingredientId !== e.target.id);
+    const newArray = ingredientsArray.filter((ingredient) => ingredient.firebaseKey !== e.target.id);
     this.setState({
       ingredients: newArray,
     });
-  }
-
-  combineIngredients = () => {
-    // const findDuplicates = (arr) => arr.filter((item, index) => arr.indexOf(item.ingredientName) !== index);
-    // const duplicates = findDuplicates(this.state.ingredients);
-    // console.log(duplicates);
-    // this.state.ingredients.map((ingredient) => <ListGroup key={ingredient.ingredientId}>
-    //       <ListGroupItem key={ingredient.ingredientId}>
-    //         <Input type="checkbox" key={ingredient.ingredientId} />
-    //         {`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName} `}
-    //         <i className="far fa-trash-alt" id={ingredient.ingredientId} onClick={(e) => this.deleteListIngredient(e)}></i>
-    //         </ListGroupItem>
-    //     </ListGroup>);
   }
 
   loadComponent = () => {
@@ -87,7 +74,13 @@ class List extends Component {
         <AppModal buttonLabel='Add By Recipe' title='Choose Recipes'>
           <AddByRecipe listId={this.state.listId} listIngredients={this.state.ingredients} onUpdate={this.getListIngredients} />
         </AppModal>
-        {this.combineIngredients()}
+        {this.state.ingredients.map((ingredient) => <ListGroup key={ingredient.firebaseKey}>
+          <ListGroupItem key={ingredient.firebaseKey}>
+            <Input type="checkbox" key={ingredient.firebaseKey} />
+            {`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName} `}
+            <i className="far fa-trash-alt" id={ingredient.firebaseKey} onClick={(e) => this.deleteListIngredient(e)}></i>
+            </ListGroupItem>
+        </ListGroup>)}
         </>;
     } else {
       component = <Auth />;
