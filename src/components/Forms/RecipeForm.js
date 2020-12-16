@@ -168,7 +168,7 @@ class RecipeForm extends Component {
     return (
       <>
       <Form onSubmit={(e) => this.handleSubmit(e)}>
-      <h2>Add Recipe</h2>
+      <h2 className="add-recipe-form-header">Add Recipe</h2>
       <FormGroup>
         <Label for="recipeName">Name</Label>
         <Input type="text" value={this.state.recipe.recipeName} name="recipeName" placeholder="ex. Butternut Squash Soup" onChange={(e) => this.handleRecipeChange(e)} required />
@@ -231,11 +231,11 @@ class RecipeForm extends Component {
       </Row>
       {this.state.ingredients.length - 1 === index && <Row>
         <Col md={{ size: 6, offset: 5 }}>
-        <Button onClick={this.handleAddIngredient} ><i className="fas fa-plus"></i></Button>
+        <Button onClick={this.handleAddIngredient} className="add-ingredient-btn" ><i className="fas fa-plus"></i></Button>
         </Col>
         </Row>}
         </>)}
-      <Button>Submit</Button>
+      <Button className="add-recipe-submit">Submit</Button>
     </Form>
     </>
     );

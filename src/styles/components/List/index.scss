@@ -33,10 +33,12 @@
   border: none;
   text-align: left;
   padding: 3% 5% 2% 5%;
+  background-color: $color2;
 }
 
 .list-items-container {
-  margin: 0 25%;
+  margin: 0 15%;
+  text-align: left;
 }
 
 .list-checkbox {
@@ -44,6 +46,16 @@
   height: 1.5em;
   margin-right: 5%;
   position: initial;
+}
+
+.fake-list-item-container {
+  opacity: .6;
+  display: flex;
+  line-height: 94%;
+}
+
+.add-ingredient-icon {
+  margin-right: 5%;
 }
 
 .list-item-text {

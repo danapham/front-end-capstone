@@ -6,16 +6,38 @@
 
 .recipe-form {
   width: 180%;
+  background-color: $color2;
+  border: none;
 }
 
-.recipes-page-h1 {
-  margin-top: 5%;
+.add-recipe-form-header {
+  font-family: $primary-font;
+  font-weight: 400;
 }
 
 .recipe-form-delete-container {
-  height: 150%;
+  height: 40%;
+  position: absolute;
+  top: 44%;
 }
 
 .recipe-form-delete {
-  font-size: 170%;
+  font-size: 150%;
+  color: $color4;
+}
+
+.recipe-form-delete:hover {
+  opacity: .8;
+  cursor: pointer;
+}
+
+.add-ingredient-btn {
+  border-radius: 50%;
+  background-color: $color4;
+  border: none;
+}
+
+.add-recipe-submit {
+  background-color: $color4;
+  border: none;
 }

@@ -10,6 +10,19 @@
 
 .add-by-recipe-h2 {
   text-align: center;
+  font-family: $primary-font;
+  font-weight: 400;
+}
+
+.add-a-recipe-link {
+  text-decoration: none;
+  color: $color3;
+}
+
+.add-a-recipe-link:hover {
+  text-decoration: none;
+  color: $color3;
+  opacity: .8;
 }
 
 .submit-btn-div {

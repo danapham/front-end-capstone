@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Form, FormGroup, Label, Input, Button,
 } from 'reactstrap';
@@ -58,7 +59,9 @@ class AddByRecipe extends Component {
       <Form className="add-by-recipe-form" onSubmit={(e) => this.handleSubmit(e)}>
         <h2 className="add-by-recipe-h2">Add Items By Recipe:</h2>
         <div className="recipe-list-item-container">
-        {recipes.map((recipe) => <FormGroup className="recipe-list-item" check>
+        {recipes.length === 0
+          ? <p>You don't have any recipes yet! Get started by <Link to="/recipes" className="add-a-recipe-link">adding a recipe</Link>.</p>
+          : recipes.map((recipe) => <FormGroup className="recipe-list-item" check>
           <Label check>
           <Input type="checkbox" id={recipe.recipeId} onChange={(e) => this.handleChange(e)} />
             {recipe.recipeName}

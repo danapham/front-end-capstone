@@ -50,7 +50,7 @@ class List extends Component {
         this.setState({
           ingredients: ingredientsArray,
         });
-      });
+      }).catch((err) => console.warn(err));
     });
   };
 
@@ -77,7 +77,11 @@ class List extends Component {
           <AddByRecipe listId={this.state.listId} listIngredients={this.state.ingredients} onUpdate={this.getListIngredients} />
         </AppModal>
         <div className="list-items-container">
-        {this.state.ingredients.map((ingredient) => <ListGroup key={ingredient.firebaseKey}>
+        {this.state.ingredients.length === 0
+          ? <div className="fake-list-item-container">
+        <i className="fas fa-plus add-ingredient-icon"></i><p>Select from the recipe list to add ingredients to your shopping list.</p>
+        </div>
+          : this.state.ingredients.map((ingredient) => <ListGroup key={ingredient.firebaseKey}>
           <ListGroupItem key={ingredient.firebaseKey}>
             <Input type="checkbox" key={ingredient.firebaseKey} className="list-checkbox"/>
             <span className="list-item-text">
