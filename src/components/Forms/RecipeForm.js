@@ -163,12 +163,12 @@ class RecipeForm extends Component {
   }
 
   render() {
-    const { ingredients } = this.state;
+    const { ingredients, recipe } = this.state;
 
     return (
       <>
       <Form onSubmit={(e) => this.handleSubmit(e)}>
-      <h2 className="add-recipe-form-header">Add Recipe</h2>
+      <h2 className="add-recipe-form-header">{recipe.recipeId === '' ? 'Add Recipe' : 'Edit Recipe' }</h2>
       <FormGroup>
         <Label for="recipeName">Name</Label>
         <Input type="text" value={this.state.recipe.recipeName} name="recipeName" placeholder="ex. Butternut Squash Soup" onChange={(e) => this.handleRecipeChange(e)} required />

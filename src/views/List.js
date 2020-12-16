@@ -86,7 +86,7 @@ class List extends Component {
             <Input type="checkbox" key={ingredient.firebaseKey} className="list-checkbox"/>
             <span className="list-item-text">
             {`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName} `}
-            <i className="far fa-trash-alt" id={ingredient.firebaseKey} onClick={(e) => this.deleteListIngredient(e)}></i>
+            <i className="far fa-trash-alt delete-list-ingredient" id={ingredient.firebaseKey} onClick={(e) => this.deleteListIngredient(e)}></i>
             </span>
             </ListGroupItem>
         </ListGroup>)}

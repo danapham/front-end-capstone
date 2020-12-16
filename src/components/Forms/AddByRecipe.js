@@ -69,7 +69,9 @@ class AddByRecipe extends Component {
         </FormGroup>)}
         </div>
         <div className="submit-btn-div">
-        <Button className="add-by-recipe-submit"><i className="fas fa-plus"></i></Button>
+        {recipes.length === 0
+          ? <Link to="/recipes"><Button className="add-recipe-link-btn">Add A Recipe</Button></Link>
+          : <Button className="add-by-recipe-submit"><i className="fas fa-plus"></i></Button>}
         </div>
       </Form>
       </>
