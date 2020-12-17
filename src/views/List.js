@@ -32,6 +32,7 @@ class List extends Component {
     const listIngredients = await listIngredientsData.getListIngredients(this.state.listId);
     const ingredientsArray = [];
     listIngredients.forEach((ingredient) => {
+      console.log(ingredient);
       const promise1 = recipeIngredientsData.getByIngredient(ingredient.ingredientId);
       const promise2 = ingredientsData.getSingleIngredient(ingredient.ingredientId);
 
