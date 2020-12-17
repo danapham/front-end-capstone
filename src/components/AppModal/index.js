@@ -6,6 +6,8 @@ import {
 const AppModal = (props) => {
   const {
     buttonLabel,
+    contentClassName,
+    modalClassName,
     className,
     title,
   } = props;
@@ -16,15 +18,12 @@ const AppModal = (props) => {
 
   return (
     <div>
-      <Button color="secondary" onClick={toggle} className="modal-btn">{buttonLabel}</Button>
-      <Modal isOpen={modal} toggle={toggle} contentClassName={className}>
+      <Button color="secondary" onClick={toggle} className={className}>{buttonLabel}</Button>
+      <Modal isOpen={modal} toggle={toggle} contentClassName={contentClassName} modalClassName={modalClassName}>
         <ModalHeader toggle={toggle}>{title}</ModalHeader>
         <ModalBody>
           {props.children}
         </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" onClick={toggle}>Close</Button>
-        </ModalFooter>
       </Modal>
     </div>
   );

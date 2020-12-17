@@ -1,0 +1,69 @@
+.list-page {
+  display: flex;
+  justify-content: center;
+}
+
+.list-div {
+  border: 3px solid $color4;
+  margin: 4% 20%;
+  padding: 3%;
+  width: 35%;
+  height: 80vh;
+}
+
+.list-h1 {
+  margin-bottom: 2%;
+  font-family: $primary-font;
+  font-weight: 400;
+  font-size: 300%;
+  color: $color6;
+}
+
+.add-by-recipe-btn {
+  background-color: $color0;
+  border: $color0 solid 1px;
+  margin-bottom: 5%;
+}
+
+.add-by-recipe-btn:hover {
+  background-color: $color1;
+  border: $color1 solid 1px;
+}
+
+.list-group-item {
+  border: none;
+  text-align: left;
+  padding: 3% 5% 2% 5%;
+  background-color: $color2;
+}
+
+.list-items-container {
+  margin: 0 15%;
+  text-align: left;
+}
+
+.list-checkbox {
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 5%;
+  position: initial;
+}
+
+.fake-list-item-container {
+  opacity: .6;
+  display: flex;
+  line-height: 94%;
+}
+
+.add-ingredient-icon {
+  margin-right: 5%;
+}
+
+.list-item-text {
+  color: $color6;
+}
+
+.delete-list-ingredient:hover {
+  opacity: .8;
+  cursor: pointer;
+}

@@ -13,7 +13,7 @@ class Auth extends Component {
   render() {
     return (
       <>
-      <Button color="secondary" onClick={this.loginClickEvent}><i className="fab fa-google"></i> | Sign in with Google</Button>
+      <Button color="secondary" className="sign-in-btn" onClick={this.loginClickEvent}><i className="fab fa-google"></i> | Sign in with Google</Button>
       </>
     );
   }

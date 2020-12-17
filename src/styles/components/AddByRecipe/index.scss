@@ -1,0 +1,50 @@
+.recipe-list-item-container {
+  border: $color3 solid 2px;
+  padding: 5%;
+  margin: 5% 10% 10% 10%;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.add-by-recipe-h2 {
+  text-align: center;
+  font-family: $primary-font;
+  font-weight: 400;
+}
+
+.add-a-recipe-link {
+  text-decoration: none;
+  color: $color3;
+}
+
+.add-a-recipe-link:hover {
+  text-decoration: none;
+  color: $color3;
+  opacity: .8;
+}
+
+.submit-btn-div {
+  display: flex; 
+  justify-content: center;
+}
+
+.add-by-recipe-submit {
+  border-radius: 50%;
+  background-color: $color5;
+  border: 2px solid $color3;
+  margin-bottom: 5%;
+}
+
+.add-recipe-link-btn {
+  background-color: $color5;
+  border: 2px solid $color3;
+  margin-bottom: 5%;
+}
+
+.add-recipe-link-btn:hover {
+  background-color: $color4;
+  border: 2px solid $color3;
+  opacity: .8;
+}

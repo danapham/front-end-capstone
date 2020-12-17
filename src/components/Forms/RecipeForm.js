@@ -140,8 +140,8 @@ class RecipeForm extends Component {
                 ingredientId: res,
                 recipeId: this.state.recipe.recipeId,
               });
-              this.props.onUpdate();
-            }).then(() => this.props.onUpdate());
+              // this.props.onUpdate();
+            }).then(() => this.props.onUpdate()).catch((err) => reject(err));
           } else {
             ingredientsData.updateIngredient(ingredient.ingredientId, {
               ingredientName: ingredient.ingredientName,
@@ -151,7 +151,7 @@ class RecipeForm extends Component {
                 quantity: ingredient.quantity,
                 quantityType: ingredient.quantityType,
               });
-            });
+            }).then(() => this.props.onUpdate()).catch((err) => reject(err));
           }
         });
       });
@@ -163,11 +163,12 @@ class RecipeForm extends Component {
   }
 
   render() {
-    const { ingredients } = this.state;
+    const { ingredients, recipe } = this.state;
 
     return (
       <>
       <Form onSubmit={(e) => this.handleSubmit(e)}>
+      <h2 className="add-recipe-form-header">{recipe.recipeId === '' ? 'Add Recipe' : 'Edit Recipe' }</h2>
       <FormGroup>
         <Label for="recipeName">Name</Label>
         <Input type="text" value={this.state.recipe.recipeName} name="recipeName" placeholder="ex. Butternut Squash Soup" onChange={(e) => this.handleRecipeChange(e)} required />
@@ -223,18 +224,18 @@ class RecipeForm extends Component {
       </FormGroup>
         </Col>
       <Col md={1}>
-        <FormGroup>
-      <Button id={index} onClick={(e) => this.handleDeleteIngredient(e)} ><i id={index} className="fas fa-trash"></i></Button>
+        <FormGroup className="recipe-form-delete-container">
+      <i id={index} className="fas fa-times recipe-form-delete" onClick={(e) => this.handleDeleteIngredient(e)}></i>
         </FormGroup>
       </Col>
       </Row>
       {this.state.ingredients.length - 1 === index && <Row>
         <Col md={{ size: 6, offset: 5 }}>
-        <Button onClick={this.handleAddIngredient} ><i className="fas fa-plus"></i></Button>
+        <Button onClick={this.handleAddIngredient} className="add-ingredient-btn" ><i className="fas fa-plus"></i></Button>
         </Col>
         </Row>}
         </>)}
-      <Button>Submit</Button>
+      <Button className="add-recipe-submit">Submit</Button>
     </Form>
     </>
     );

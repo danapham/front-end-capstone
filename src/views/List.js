@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  ListGroup, ListGroupItem, Input, Button,
+  ListGroup, ListGroupItem, Input,
 } from 'reactstrap';
 import AppModal from '../components/AppModal';
 import Auth from '../components/Auth';
@@ -32,6 +32,7 @@ class List extends Component {
     const listIngredients = await listIngredientsData.getListIngredients(this.state.listId);
     const ingredientsArray = [];
     listIngredients.forEach((ingredient) => {
+      console.log(ingredient);
       const promise1 = recipeIngredientsData.getByIngredient(ingredient.ingredientId);
       const promise2 = ingredientsData.getSingleIngredient(ingredient.ingredientId);
 
@@ -50,7 +51,7 @@ class List extends Component {
         this.setState({
           ingredients: ingredientsArray,
         });
-      });
+      }).catch((err) => console.warn(err));
     });
   };
 
@@ -59,7 +60,7 @@ class List extends Component {
     ingredientsArray.forEach((ingredient) => {
       listIngredientsData.deleteListIngredient(ingredient.firebaseKey);
     });
-    const newArray = ingredientsArray.filter((ingredient) => ingredient.ingredientId !== e.target.id);
+    const newArray = ingredientsArray.filter((ingredient) => ingredient.firebaseKey !== e.target.id);
     this.setState({
       ingredients: newArray,
     });
@@ -70,17 +71,29 @@ class List extends Component {
 
     if (this.props.user) {
       component = <>
-        <h1>Shopping List</h1>
-        <AppModal buttonLabel='Add By Recipe' title='Choose Recipes'>
-          <AddByRecipe listId={this.state.listId} onUpdate={this.getListIngredients} />
+      <div className="list-page">
+      <div className="list-div">
+        <h1 className="list-h1">Shopping List</h1>
+        <AppModal buttonLabel='Add By Recipe' className="add-by-recipe-btn">
+          <AddByRecipe listId={this.state.listId} listIngredients={this.state.ingredients} onUpdate={this.getListIngredients} />
         </AppModal>
-        {this.state.ingredients.map((ingredient) => <ListGroup key={ingredient.ingredientId}>
-          <ListGroupItem key={ingredient.ingredientId}>
-            <Input type="checkbox" key={ingredient.ingredientId} />
+        <div className="list-items-container">
+        {this.state.ingredients.length === 0
+          ? <div className="fake-list-item-container">
+        <i className="fas fa-plus add-ingredient-icon"></i><p>Select from the recipe list to add ingredients to your shopping list.</p>
+        </div>
+          : this.state.ingredients.map((ingredient) => <ListGroup key={ingredient.firebaseKey}>
+          <ListGroupItem key={ingredient.firebaseKey}>
+            <Input type="checkbox" key={ingredient.firebaseKey} className="list-checkbox"/>
+            <span className="list-item-text">
             {`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName} `}
-            <i className="far fa-trash-alt" id={ingredient.ingredientId} onClick={(e) => this.deleteListIngredient(e)}></i>
+            <i className="far fa-trash-alt delete-list-ingredient" id={ingredient.firebaseKey} onClick={(e) => this.deleteListIngredient(e)}></i>
+            </span>
             </ListGroupItem>
         </ListGroup>)}
+        </div>
+        </div>
+        </div>
         </>;
     } else {
       component = <Auth />;

@@ -44,15 +44,19 @@ class SingleRecipe extends Component {
   render() {
     const { recipe, ingredients } = this.state;
     return (
-      <div>
+      <div className="single-recipe-container">
+      <div className="single-recipe-div">
       <h1>{recipe.recipeName}</h1>
       <h5>{recipe.description}</h5>
+      <div className="single-recipe-list-container">
       <ListGroup>
-        {ingredients.map((ingredient) => (<ListGroupItem>{`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName}`}</ListGroupItem>))}
+        {ingredients.map((ingredient) => (<ListGroupItem className="single-recipe-list-item">{`${ingredient.quantity} ${ingredient.quantityType} ${ingredient.ingredientName}`}</ListGroupItem>))}
       </ListGroup>
-      <AppModal buttonLabel="Edit" title="Edit Recipe" className="recipe-form">
+      </div>
+      <AppModal buttonLabel="Edit" className="edit-recipe-btn" contentClassName="recipe-form" modalClassName="recipe-form-modal">
         <RecipeForm recipe={this.state.recipe} ingredients={this.state.ingredients} onUpdate={this.getRecipeData} />
       </AppModal>
+      </div>
       </div>
     );
   }

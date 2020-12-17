@@ -1,3 +1,43 @@
+.recipe-form-modal {
+  top: 3%;
+  right: 14%;
+  left: auto;
+}
+
 .recipe-form {
   width: 180%;
+  background-color: $color2;
+  border: none;
+}
+
+.add-recipe-form-header {
+  font-family: $primary-font;
+  font-weight: 400;
+}
+
+.recipe-form-delete-container {
+  height: 40%;
+  position: absolute;
+  top: 44%;
+}
+
+.recipe-form-delete {
+  font-size: 150%;
+  color: $color4;
+}
+
+.recipe-form-delete:hover {
+  opacity: .8;
+  cursor: pointer;
+}
+
+.add-ingredient-btn {
+  border-radius: 50%;
+  background-color: $color4;
+  border: none;
+}
+
+.add-recipe-submit {
+  background-color: $color4;
+  border: none;
 }

@@ -1,15 +1,37 @@
 .recipe-card-container {
-  margin: 5%;
+  margin: 2%;
   display: flex;
   justify-content: center;
 }
 
 .recipe-card-link {
-  color: inherit;
+  color: $color6;
   width: 20%;
+  text-decoration: none !important;
+}
+
+.recipe-card-link:hover {
+  color: $color6;
 }
 
 .recipe-card {
   padding: 5%;
   margin: 5%;
+  background-color: $color3;
+  align-items: center;
+  font-size: 110%;
+}
+
+.recipe-card:hover {
+  background-color: $color4;
+}
+
+.delete-recipe-btn {
+  width: 20%;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.recipe-card:hover .delete-recipe-btn  {
+  opacity: 1;
 }

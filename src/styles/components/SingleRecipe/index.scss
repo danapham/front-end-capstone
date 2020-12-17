@@ -1,0 +1,34 @@
+.recipe-form {
+  width: 180%;
+  background-color: $color2;
+  border: none;
+}
+
+.single-recipe-container {
+  display: flex;
+  justify-content: center;
+}
+
+.single-recipe-div {
+  border: 3px solid $color4;
+  width: 50%;
+  height: 70vh;
+  margin-top: 5%;
+  padding: 2%;
+}
+
+.single-recipe-list-item {
+  list-style-type: circle;
+  display: list-item;
+  font-size: 120%;
+  padding: 0;
+}
+
+.single-recipe-list-container {
+  margin: 5% 20%;
+}
+
+.edit-recipe-btn {
+  background-color: $color0;
+  border: none;
+}

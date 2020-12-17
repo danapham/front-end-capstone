@@ -26,7 +26,7 @@ const MyNavbar = (props) => {
 
   return (
     <div>
-      <Navbar color="light" light expand="md">
+      <Navbar light expand="md">
         <NavbarBrand tag={Link} to="/">gredients</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
