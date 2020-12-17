@@ -140,8 +140,8 @@ class RecipeForm extends Component {
                 ingredientId: res,
                 recipeId: this.state.recipe.recipeId,
               });
-              this.props.onUpdate();
-            }).then(() => this.props.onUpdate());
+              // this.props.onUpdate();
+            }).then(() => this.props.onUpdate()).catch((err) => reject(err));
           } else {
             ingredientsData.updateIngredient(ingredient.ingredientId, {
               ingredientName: ingredient.ingredientName,
@@ -151,7 +151,7 @@ class RecipeForm extends Component {
                 quantity: ingredient.quantity,
                 quantityType: ingredient.quantityType,
               });
-            });
+            }).then(() => this.props.onUpdate()).catch((err) => reject(err));
           }
         });
       });
