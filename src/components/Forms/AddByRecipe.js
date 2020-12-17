@@ -43,13 +43,16 @@ class AddByRecipe extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
+    const createIngredientsPromises = [];
     this.state.ingredients.forEach((ingredient) => {
-      listIngredientsData.createListIngredient({
+      createIngredientsPromises.push(listIngredientsData.createListIngredient({
         listId: this.props.listId,
         ingredientId: ingredient.ingredientId,
         checked: false,
-      }).then(() => this.props.onUpdate());
+      }));
     });
+
+    Promise.all(createIngredientsPromises).then(() => this.props.onUpdate());
   }
 
   render() {
