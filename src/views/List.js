@@ -55,10 +55,8 @@ class List extends Component {
   };
 
   deleteListIngredient = (e) => {
+    listIngredientsData.deleteListIngredient(e.target.id);
     const ingredientsArray = this.state.ingredients;
-    ingredientsArray.forEach((ingredient) => {
-      listIngredientsData.deleteListIngredient(ingredient.firebaseKey);
-    });
     const newArray = ingredientsArray.filter((ingredient) => ingredient.firebaseKey !== e.target.id);
     this.setState({
       ingredients: newArray,
