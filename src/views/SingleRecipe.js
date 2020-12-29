@@ -17,16 +17,38 @@ class SingleRecipe extends Component {
     this.getRecipeData();
   }
 
+  // getRecipeData = () => {
+  //   const recipeId = this.props.match.params.id;
+  //   recipeData.getSingleRecipe(recipeId).then((res) => {
+  //     this.setState({
+  //       recipe: res,
+  //     });
+  //   });
+  //   recipeIngredientsData.getRecipeIngredients(recipeId).then((res) => {
+  //     this.setState({
+  //       recipeIngredients: res,
+  //     }, () => console.log(this.state.recipeIngredients));
+  //   }).then(() => {
+  //     const ingredientsArr = [];
+  //     this.state.recipeIngredients.forEach((rIngredient) => {
+  //       ingredientsData.getSingleIngredient(rIngredient.ingredientId).then((res) => {
+  //         const ingredient = { ...rIngredient, ...res };
+  //         ingredientsArr.push(ingredient);
+  //       }).then(() => this.setState({
+  //         ingredients: ingredientsArr,
+  //       }));
+  //     });
+  //   });
+  // }
+
   getRecipeData = () => {
     const recipeId = this.props.match.params.id;
-    recipeData.getSingleRecipe(recipeId).then((res) => {
+    const promise1 = recipeData.getSingleRecipe(recipeId);
+    const promise2 = recipeIngredientsData.getRecipeIngredients(recipeId);
+    Promise.all([promise1, promise2]).then((res) => {
       this.setState({
-        recipe: res,
-      });
-    });
-    recipeIngredientsData.getRecipeIngredients(recipeId).then((res) => {
-      this.setState({
-        recipeIngredients: res,
+        recipe: res[0],
+        recipeIngredients: res[1],
       });
     }).then(() => {
       const ingredientsArr = [];

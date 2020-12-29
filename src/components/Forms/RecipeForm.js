@@ -125,40 +125,69 @@ class RecipeForm extends Component {
           this.props.onUpdate();
         });
     } else {
-      const promise1 = recipeData.updateRecipe(this.state.recipe.recipeId, this.state.recipe);
+      recipeData.updateRecipe(this.state.recipe.recipeId, this.state.recipe);
 
-      const promise2 = new Promise((resolve, reject) => {
-        this.state.ingredients.forEach((ingredient) => {
-          if (ingredient.firebaseKey === '') {
-            ingredientsData.createIngredient({
-              ingredientName: ingredient.ingredientName,
-              category: ingredient.category,
-            }).then((res) => {
-              recipeIngredientsData.createRecipeIngredient({
-                quantity: ingredient.quantity,
-                quantityType: ingredient.quantityType,
-                ingredientId: res,
-                recipeId: this.state.recipe.recipeId,
-              });
-              // this.props.onUpdate();
-            }).then(() => this.props.onUpdate()).catch((err) => reject(err));
-          } else {
-            ingredientsData.updateIngredient(ingredient.ingredientId, {
-              ingredientName: ingredient.ingredientName,
-              category: ingredient.category,
-            }).then(() => {
-              recipeIngredientsData.updateRecipeIngredient(ingredient.firebaseKey, {
-                quantity: ingredient.quantity,
-                quantityType: ingredient.quantityType,
-              });
-            }).then(() => this.props.onUpdate()).catch((err) => reject(err));
-          }
-        });
+      const promiseArray = [];
+
+      this.state.ingredients.forEach((ingredient) => {
+        if (ingredient.firebaseKey === '') {
+          promiseArray.push(ingredientsData.createIngredient({
+            ingredientName: ingredient.ingredientName,
+            category: ingredient.category,
+          }).then((res) => {
+            recipeIngredientsData.createRecipeIngredient({
+              quantity: ingredient.quantity,
+              quantityType: ingredient.quantityType,
+              ingredientId: res,
+              recipeId: this.state.recipe.recipeId,
+            });
+          }));
+        } else {
+          promiseArray.push(ingredientsData.updateIngredient(ingredient.ingredientId, {
+            ingredientName: ingredient.ingredientName,
+            category: ingredient.category,
+          }));
+          promiseArray.push(recipeIngredientsData.updateRecipeIngredient(ingredient.firebaseKey, {
+            quantity: ingredient.quantity,
+            quantityType: ingredient.quantityType,
+          }));
+        }
       });
 
-      Promise.all([promise1, promise2]).then(() => {
-        this.props.onUpdate();
-      });
+      Promise.all(promiseArray).then(() => this.props.onUpdate());
+      // const promise1 = recipeData.updateRecipe(this.state.recipe.recipeId, this.state.recipe);
+
+      // const promise2 = new Promise((resolve, reject) => {
+      //   this.state.ingredients.forEach((ingredient) => {
+      //     if (ingredient.firebaseKey === '') {
+      //       ingredientsData.createIngredient({
+      //         ingredientName: ingredient.ingredientName,
+      //         category: ingredient.category,
+      //       }).then((res) => {
+      //         recipeIngredientsData.createRecipeIngredient({
+      //           quantity: ingredient.quantity,
+      //           quantityType: ingredient.quantityType,
+      //           ingredientId: res,
+      //           recipeId: this.state.recipe.recipeId,
+      //         });
+      //       }).then(() => this.props.onUpdate()).catch((err) => reject(err));
+      //     } else {
+      //       ingredientsData.updateIngredient(ingredient.ingredientId, {
+      //         ingredientName: ingredient.ingredientName,
+      //         category: ingredient.category,
+      //       }).then(() => {
+      //         recipeIngredientsData.updateRecipeIngredient(ingredient.firebaseKey, {
+      //           quantity: ingredient.quantity,
+      //           quantityType: ingredient.quantityType,
+      //         });
+      //       }).then(() => this.props.onUpdate()).catch((err) => reject(err));
+      //     }
+      //   });
+      // });
+
+      // Promise.all([promise1, promise2]).then(() => {
+      //   this.props.onUpdate();
+      // });
     }
   }
 
