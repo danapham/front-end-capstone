@@ -141,6 +141,7 @@ class RecipeForm extends Component {
               ingredientId: res,
               recipeId: this.state.recipe.recipeId,
             });
+            return res;
           }));
         } else {
           promiseArray.push(ingredientsData.updateIngredient(ingredient.ingredientId, {
@@ -154,7 +155,7 @@ class RecipeForm extends Component {
         }
       });
 
-      Promise.all(promiseArray).then(() => this.props.onUpdate());
+      Promise.all(promiseArray).then(() => setTimeout(() => this.props.onUpdate(), 1000));
       // const promise1 = recipeData.updateRecipe(this.state.recipe.recipeId, this.state.recipe);
 
       // const promise2 = new Promise((resolve, reject) => {

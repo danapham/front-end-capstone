@@ -58,7 +58,7 @@ class SingleRecipe extends Component {
           ingredientsArr.push(ingredient);
         }).then(() => this.setState({
           ingredients: ingredientsArr,
-        }));
+        }), () => console.log(this.state.ingredients));
       });
     });
   }
