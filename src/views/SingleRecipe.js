@@ -17,30 +17,6 @@ class SingleRecipe extends Component {
     this.getRecipeData();
   }
 
-  // getRecipeData = () => {
-  //   const recipeId = this.props.match.params.id;
-  //   recipeData.getSingleRecipe(recipeId).then((res) => {
-  //     this.setState({
-  //       recipe: res,
-  //     });
-  //   });
-  //   recipeIngredientsData.getRecipeIngredients(recipeId).then((res) => {
-  //     this.setState({
-  //       recipeIngredients: res,
-  //     }, () => console.log(this.state.recipeIngredients));
-  //   }).then(() => {
-  //     const ingredientsArr = [];
-  //     this.state.recipeIngredients.forEach((rIngredient) => {
-  //       ingredientsData.getSingleIngredient(rIngredient.ingredientId).then((res) => {
-  //         const ingredient = { ...rIngredient, ...res };
-  //         ingredientsArr.push(ingredient);
-  //       }).then(() => this.setState({
-  //         ingredients: ingredientsArr,
-  //       }));
-  //     });
-  //   });
-  // }
-
   getRecipeData = () => {
     const recipeId = this.props.match.params.id;
     const promise1 = recipeData.getSingleRecipe(recipeId);
@@ -58,7 +34,7 @@ class SingleRecipe extends Component {
           ingredientsArr.push(ingredient);
         }).then(() => this.setState({
           ingredients: ingredientsArr,
-        }), () => console.log(this.state.ingredients));
+        }));
       });
     });
   }
